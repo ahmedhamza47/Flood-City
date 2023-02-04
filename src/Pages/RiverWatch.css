@@ -1,0 +1,55 @@
+img {
+  width: 100%;
+  height: 90vh;
+}
+.overlay {
+  height: 90vh !important;
+}
+.map-section-container {
+  background-color: rgba(184, 177, 177, 0.5);
+  background-color: rgba(131, 137, 137, 0.5);
+  height: 120vh;
+}
+.leaflet-container {
+  height: 500px;
+  width: 100%;
+  border-radius: 25px;
+  box-shadow: 15px 15px 15px rgb(101, 100, 100);
+}
+
+.arrow-container {
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+  height: 100px;
+  width: 100px;
+  position: relative;
+  left: 45.5%;
+}
+
+.arrow {
+  animation: arrow-move 2s ease-in-out infinite;
+}
+
+@keyframes arrow-move {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* observation explanation section */
+
+.observation-explanation img {
+  width: 90%;
+  height: 100%;
+}
+.observation-description {
+  padding-right: 2cm !important;
+  width: 60%;
+}

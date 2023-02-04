@@ -1,0 +1,40 @@
+footer {
+  background-color: rgba(30, 52, 75, 0.83);
+}
+.icon {
+  color: white;
+  font-size: 2rem;
+  margin: 0.5rem;
+  cursor: pointer;
+}
+footer h5,
+footer p {
+  color: white;
+}
+
+.description {
+  padding-left: 50px !important;
+  margin-top: 2%;
+}
+my-lg-auto .description p {
+  font-size: 0.9rem;
+  padding-right: 5%;
+}
+
+.footer-icons {
+  padding-top: 2rem;
+  padding-left: 10px;
+  color: white;
+  font-size: 2rem;
+}
+.socket {
+  border-top: 2px solid white;
+  background-color: rgba(30, 52, 75, 0.83);
+}
+.socket p :hover {
+  color: rgb(230, 215, 215);
+  text-decoration: none;
+}
+.blue {
+  color: white;
+}

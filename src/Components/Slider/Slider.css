@@ -1,0 +1,37 @@
+.carousel-item img {
+  height: 90vh !important;
+  width: 100%;
+  z-index: -1;
+}
+
+.carousel-item {
+  position: relative;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(30, 52, 75, 0.83);
+}
+.text-over-images {
+  position: absolute;
+  top: 38%;
+  left: 0;
+  width: 100%;
+
+  color: white;
+  font-size: 36px;
+  text-align: center;
+  line-height: 1.5;
+  z-index: 1;
+}
+.title,
+.info {
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+.info {
+  margin-top: 20px;
+}
