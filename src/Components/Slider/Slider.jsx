@@ -20,7 +20,7 @@ const Slider = () => {
               <div className="title">
                 <h1 className="slider-info">
                   Online media monitoring <br />
-                  for floods and weather impact
+                  for flood prediction
                 </h1>
               </div>
               <div className="info">
@@ -39,7 +39,7 @@ const Slider = () => {
               <div className="title">
                 <h1 className="slider-info">
                   Online media monitoring <br />
-                  <span className="mt-5">for floods and weather impact</span>
+                  <span className="mt-5">for flood prediction</span>
                 </h1>
               </div>
               <div className="info">
@@ -59,11 +59,11 @@ const Slider = () => {
               <div className="title">
                 <h1 className="slider-info">
                   Online media monitoring <br />
-                  for floods and weather impact
+                  for flood prediction
                 </h1>
               </div>
               <div className="info">
-                <h3> Flood Prediction</h3>
+                <h3> Forecasting</h3>
               </div>
             </div>
             <div className="overlay"></div>

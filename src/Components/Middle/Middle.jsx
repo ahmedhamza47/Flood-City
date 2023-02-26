@@ -9,7 +9,7 @@ AOS.init({
   once: true,
 });
 const Middle = () => {
-  console.log("hello");
+  //console.log("hello");
   return (
     <div>
       <div className="container">
@@ -21,16 +21,16 @@ const Middle = () => {
             <h1 className="heading">What we do</h1>
 
             <p className="main-description description">
-              We provide high quality social media and online media analysis for
-              floods and other weather impacts, using the latest advancements of
-              AI in natural language processing, speech technology and image
-              processing. We have global coverage.
+              Get accurate water level information and predictions for rivers in
+              Nepal with our website. Our machine learning algorithms take into
+              account various factors for the most accurate predictions
+              possible.
               <br /> <span> </span>
             </p>
           </div>
         </div>
         {/* -------------Middle Section--------------- */}
-        <div className="mid-mid-section my-5">
+        <div className="mid-mid-section justify-content-center text-center pr-4 my-5">
           <div className="row">
             <div className="col-lg-4" data-aos="fade-right">
               <i className="bi bi-graph-up-arrow  icons "></i>
@@ -46,25 +46,24 @@ const Middle = () => {
               <i className="bi bi-bar-chart-line-fill icons "></i>
 
               <p className="mid-description  description">
-                Collect more information via active reporting in Twitter,
-                Telegram, WhatsApp, Facebook or a Webform. Analyse the
-                crowd-sourced information together with other media
-                observations.
+                We provide accurate water level information and predictions for
+                rivers in Nepal. Stay ahead of potential floods and help manage
+                water resources with our machine learning algorithms.
               </p>
             </div>
             <div className="col-lg-4" data-aos="fade-left">
               <i className="bi bi-chat-text  icons"></i>
 
               <p className="mid-description  description">
-                We monitor events from multiple platforms in social media, news,
-                blogs, forums, web pages. On global scale. Via a dashboard and
-                API you get access to a wealth of data from-the-ground.s
+                Stay informed with our blog and social media on flood prediction
+                and water level monitoring. Expert insights and real-time
+                updates at your fingertips.
               </p>
             </div>
           </div>
         </div>
         {/* ------------------------bottom-section------------------------- */}
-        <div className="mid-bottom-section mx-5">
+        <div className="mid-bottom-section mx-4 pr-3">
           <div className="justify-content-center text-center">
             <h1 className="heading">How it works</h1>
 
@@ -73,13 +72,11 @@ const Middle = () => {
                 <i className="bi bi-check2-square work-icon "></i>
               </div>
               <div className="col-lg-8 my-auto">
-                <h3 className="bottom-title">
-                  You select the topic and country
-                </h3>
+                <h3 className="bottom-title">You provide the location</h3>
                 <p className="bottom-description description">
-                  You choose the topic, the countries and the languages that you
-                  would like to monitor in the media (social media and and other
-                  media sources)
+                  Easily monitor water levels. Choose location, select language,
+                  see real-time updates. Check future levels and prepare for
+                  floods with our web app.
                 </p>
               </div>
             </div>
@@ -90,11 +87,10 @@ const Middle = () => {
                   Data preparation and processing
                 </h3>
                 <p className="bottom-description description">
-                  We prepare your data for the topic, country and language of
-                  your choice. If we don't have the appropriate classifiers
-                  already (e.g. for a less spoken local language) we develop
-                  them through a process of annotation and classification of the
-                  data.
+                  Efficient flood prediction is achieved through precise data
+                  preparation with WRF and Python. If necessary, we also develop
+                  appropriate classifiers through a process of data annotations
+                  and classifications.
                 </p>
               </div>
               <div className="col-lg-4">
@@ -109,11 +105,8 @@ const Middle = () => {
               <div className="col-lg-8 my-auto">
                 <h3 className="bottom-title">You get access</h3>
                 <p className="bottom-description description">
-                  You access the data in your personalized dashboard or
-                  connected to your own software via our API. Or you can analyse
-                  the results from a tailor-made report, for instance holding a
-                  detailed account of past events of your topic. Check solutions
-                  to see what that looks like.
+                  You get access to real-time water level information and flood
+                  predictions for Nepal through our web application.
                 </p>
               </div>
             </div>
@@ -124,11 +117,10 @@ const Middle = () => {
                   On request we develop extra features
                 </h3>
                 <p className="bottom-description description">
-                  Each use-case has different requirements to really make that
-                  impact. This can be an additional front-end feature, data
-                  triangulation, confidence scoring, or even new crowd-sourcing
-                  options. What does your project require more, to make
-                  guaranteed impact?
+                  Enhance your experience with custom solutions. Request
+                  additional features for a tailored solution in monitoring
+                  water levels and predicting floods. Get in touch with us
+                  today.
                 </p>
               </div>
               <div className="col-lg-4">

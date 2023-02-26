@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="row justify-content-center text-center no-gutters ">
           <div className="col-lg-4 description text-left ">
             <h5>
-              About FloodCity
+              About FloodWarn
               <span className="orange" style={{ fontSize: "2rem" }}>
                 .
               </span>

@@ -21,7 +21,7 @@ function Navbar() {
       >
         <div className="container">
           <a className="navbar-brand lobster" href="index.html">
-            FloodCity
+            FloodWarn
           </a>
           <button
             className="navbar-toggler ml-auto custom-toggler"
@@ -61,7 +61,7 @@ function Navbar() {
               <Link to={"/about/"}>
                 <li className="nav-item  ">
                   <a className="nav-link inactive" href="/">
-                    About<span className="sr-only">(current)</span>
+                    Analysis<span className="sr-only">(current)</span>
                   </a>
                 </li>
               </Link>

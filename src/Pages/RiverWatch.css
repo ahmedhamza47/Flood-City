@@ -8,7 +8,9 @@ img {
 .map-section-container {
   background-color: rgba(184, 177, 177, 0.5);
   background-color: rgba(131, 137, 137, 0.5);
-  height: 120vh;
+  height: 100%;
+  padding-bottom: 0px !important;
+  margin-bottom: 0px !important;
 }
 .leaflet-container {
   height: 500px;
@@ -52,4 +54,31 @@ img {
 .observation-description {
   padding-right: 2cm !important;
   width: 60%;
+}
+.input {
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+.input:hover {
+  width: fit-content;
+  cursor: pointer;
+  color: gray;
+}
+.sub-info {
+  position: relative;
+  left: 11%;
+  padding-bottom: 0;
+  color: brown;
+  width: fit-content;
+}
+.select-date {
+  font-size: 1rem;
+  font-weight: bolder;
+  letter-spacing: 0.4px;
+  font-style: italic;
+}
+.map-heading {
+  font-family: "Lobster", cursive;
+  letter-spacing: 2px;
 }
