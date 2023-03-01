@@ -115,7 +115,7 @@ const MarkersMap = () => {
                         <Popup>
                           {station?.name} <br />
                           Water Level:{" "}
-                          {Number(station?.waterLevel?.value).toFixed(2)}m{" "}
+                          {Number(station?.value).toFixed(2)}m{" "}
                           <br />
                           {Number(station?.waterLevel?.value) >
                             Number(station?.danger_level) && (

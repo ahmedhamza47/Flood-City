@@ -1,0 +1,12 @@
+CREATE STREAM main_stream (id INT, latitude DOUBLE, longitude DOUBLE, basin VARCHAR(40), danger_level DOUBLE, warning_level DOUBLE, datetime VARCHAR(90), value DOUBLE,name varchar(100)) WITH (KAFKA_TOPIC='main', VALUE_FORMAT='JSON');
+
+CREATE STREAM alert_stream with (KAFKA_TOPIC='alert',VALUE_FORMAT='JSON') AS 
+SELECT *
+FROM main_stream 
+WHERE value > warning_level;
+
+
+CREATE STREAM alert_topic_stream WITH (kafka_topic='alert', value_format='json') AS  SELECT *  FROM alert_stream;
+
+
+kafka-delete-records.sh --bootstrap-server localhost:9092 --offset-json-file delete.json 
