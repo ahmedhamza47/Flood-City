@@ -27,6 +27,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -66,6 +67,7 @@ const PredictedMap = () => {
     formattedDate = `${year}${month}${day}`;
   }
   console.log("formatted", formattedDate);
+  const navigate = useNavigate();
   //----------------------------------------------------------------
   //--------------------------- maps sections--------------------------
   const location = useGeolocation();
@@ -102,15 +104,18 @@ const PredictedMap = () => {
 
   const handlePredictButtonClick = async () => {
     observeRef.current.scrollIntoView({ behavior: "smooth" });
-    const d = await getPredictedData("20220607");
+    const d = await getPredictedData(formattedDate);
+    console.log("hell");
     console.log(d);
-    return d.data;
+    navigate("/prediction/");
+    return d;
   };
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ["datas"],
     queryFn: () => handlePredictButtonClick(),
   });
-
+  console.log(data);
   // const refinedData = data?.filter((item) => {
   //   return (
   //     item.danger_level !== null &&
@@ -231,71 +236,74 @@ const PredictedMap = () => {
                     />
                   </FeatureGroup>
                   <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                  if(isLoading){<div> Loadingss</div>}
-                  if(isError){<div>Error</div>}
+                  if(isLoading){<div> Loading</div>}
                   else
                   {
                     <div>
-                      {data?.map((station, index) => {
-                        return (
-                          <div key={index}>
-                            <Marker
-                              icon={
-                                Number(station?.water_level) >
-                                Number(station?.danger_level)
-                                  ? redMarker
-                                  : Number(station?.water_level) >
-                                    Number(station?.warning_level)
-                                  ? orangeMarker
-                                  : greenMarker
-                              }
-                              position={[station?.latitude, station?.longitude]}
-                              eventHandlers={{ click: handleMarkerClick }}
-                            >
-                              <Popup>
-                                {station?.name} <br />
-                                Water Level:
-                                {Number(station?.waterLevel?.value).toFixed(2)}m
-                                <br />
-                                {Number(station?.water_level) >
-                                Number(station?.danger_level) ? (
-                                  <p style={{ margin: 0 }}>
-                                    Status:
-                                    <span className="dangerLevelText">
-                                      Flood ALert
-                                    </span>
-                                  </p>
-                                ) : Number(station?.water_level) >
-                                  Number(station?.warning_level) ? (
-                                  <p style={{ margin: 0 }}>
-                                    Status:
-                                    <span className="warningText">
-                                      Chance of Flood
-                                    </span>
-                                  </p>
-                                ) : (
-                                  <p style={{ margin: 0 }}>
-                                    Status :
-                                    <span className="steadyText">
-                                      Steady Flow
-                                    </span>
-                                  </p>
-                                )}
-                                {circleVisibility && (
-                                  <Circle
-                                    center={[
-                                      station?.latitude,
-                                      station?.longitude,
-                                    ]}
-                                    pathOptions={redOptions}
-                                    radius={1000}
-                                  />
-                                )}
-                              </Popup>
-                            </Marker>
-                          </div>
-                        );
-                      })}
+                      {data &&
+                        data?.map((station, index) => {
+                          return (
+                            <div key={index}>
+                              <Marker
+                                icon={
+                                  Number(station?.value) >
+                                  Number(station?.danger_level)
+                                    ? redMarker
+                                    : Number(station?.value) >
+                                      Number(station?.warning_level)
+                                    ? orangeMarker
+                                    : greenMarker
+                                }
+                                position={[
+                                  station?.latitude,
+                                  station?.longitude,
+                                ]}
+                                eventHandlers={{ click: handleMarkerClick }}
+                              >
+                                <Popup>
+                                  {station?.name} <br />
+                                  Water Level:
+                                  {Number(station?.value).toFixed(2)}m
+                                  <br />
+                                  {Number(station?.value) >
+                                  Number(station?.danger_level) ? (
+                                    <p style={{ margin: 0 }}>
+                                      Status:
+                                      <span className="dangerLevelText">
+                                        Flood ALert
+                                      </span>
+                                    </p>
+                                  ) : Number(station?.value) >
+                                    Number(station?.warning_level) ? (
+                                    <p style={{ margin: 0 }}>
+                                      Status:
+                                      <span className="warningText">
+                                        Chance of Flood
+                                      </span>
+                                    </p>
+                                  ) : (
+                                    <p style={{ margin: 0 }}>
+                                      Status :
+                                      <span className="steadyText">
+                                        Steady Flow
+                                      </span>
+                                    </p>
+                                  )}
+                                  {circleVisibility && (
+                                    <Circle
+                                      center={[
+                                        station?.latitude,
+                                        station?.longitude,
+                                      ]}
+                                      pathOptions={redOptions}
+                                      radius={1000}
+                                    />
+                                  )}
+                                </Popup>
+                              </Marker>
+                            </div>
+                          );
+                        })}
                     </div>
                   }
                   {location.loaded && !location.error && (

@@ -20,18 +20,19 @@ path {
 .steadyText {
   color: green;
 }
-.chart {
+Line {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 5% 25%;
+  width: 5cm;
 }
-.lineGraphs:hover {
-  cursor: pointer;
-}
-.analysis-chart {
+.parent-row{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  margin: 5% 15%;
+}
+.line-row {
+  width: 80%;
+ 
+}
+.line-col {
+  width: 100%;
 }

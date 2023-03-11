@@ -45,7 +45,7 @@ const getOptions = (title) => {
       },
       title: {
         display: true,
-        text: `Water Level for ${title} River  `,
+        text: `${title}  `,
       },
     },
   };
@@ -54,15 +54,6 @@ const getOptions = (title) => {
 
 export function Analysis() {
   const [labels, setLabels] = useState([]);
-  const dates = [
-    "20230306",
-    "20230307",
-    "20230308",
-    "20230309",
-    "20230310",
-    "20230311",
-    "20230312",
-  ];
 
   useEffect(() => {
     const today = new Date();
@@ -122,6 +113,7 @@ export function Analysis() {
   //     futureData[riverName[i]].push(forecastedData);
   //   }
   // }
+
   const RiverData = (river) => {
     // console.log(rivers);
     const Data = {
@@ -140,12 +132,28 @@ export function Analysis() {
   };
 
   return (
-    <div className="analysis-chart">
+    <div className="mt-5 rows">
       {riverName.map((name) => {
         return (
-          <div className="mt-5 lineGraphs">
-            <Line options={getOptions(name)} data={RiverData(name)} />
-            <p className="text-center">(Today)</p>
+          <div className="parent-row">
+            <div className="row mt-5 line-row flex justify-content-center">
+              <div className="col-lg-6 mt-5 line-col">
+                <Line
+                  options={getOptions(
+                    `Historical Water Level for ${name} river`
+                  )}
+                  data={RiverData(name)}
+                />
+              </div>
+              <div className="col-lg-6 mt-5 line-col">
+                <Line
+                  options={getOptions(
+                    `Predicted 1 week data for ${name} river`
+                  )}
+                  data={RiverData(name)}
+                />
+              </div>
+            </div>
           </div>
         );
       })}

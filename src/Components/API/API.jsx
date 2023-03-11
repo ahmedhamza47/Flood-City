@@ -39,8 +39,22 @@ export const getPredictedData = async (date) => {
   const humlaKarnaliData = await axios.get(
     `http://192.168.101.8:8000/forecast/humla_karnali/${date}`
   );
-
-  const datas = [...sinjaData, ...humlaKarnaliData];
+  const chisapaniData = await axios.get(
+    `http://192.168.101.8:8000/forecast/chisapani/${date}`
+  );
+  const sanoBheriData = await axios.get(
+    `http://192.168.101.8:8000/forecast/sanobheri/${date}`
+  );
+  const dipayalData = await axios.get(
+    `http://192.168.101.8:8000/forecast/dipayal/${date}`
+  );
+  const datas = [
+    sinjaData.data,
+    humlaKarnaliData.data,
+    dipayalData.data,
+    chisapaniData.data,
+    sanoBheriData.data,
+  ];
   return datas;
 };
 
