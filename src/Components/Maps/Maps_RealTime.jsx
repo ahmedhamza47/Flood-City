@@ -2,14 +2,19 @@ import React, { useState, useRef } from "react";
 import { TileLayer, Marker, MapContainer, FeatureGroup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
-import { redMarker, blueMarker, greenMarker } from "./MarkerColor";
+import {
+  redMarker,
+  blueMarker,
+  greenMarker,
+  orangeMarker,
+} from "./MarkerColor";
 import { EditControl } from "react-leaflet-draw";
 import { Circle, Popup, Polyline } from "react-leaflet";
 import useGeolocation from "./useGelolocation";
 import { river } from "../../Data";
 import L from "leaflet";
 import { fetchRealTimeData, pushRealTimeData } from "../API/API";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon.png",
@@ -27,19 +32,18 @@ const MarkersMap = () => {
   });
   //--
   //console.log("original data", data?.data);
-  const refinedData = data?.data?.filter((item) => {
-    return (
-      item.danger_level !== null &&
-      item.warning_level !== null &&
-      item.waterLevel !== null &&
-      item.danger_level !== ""
-    );
-  });
-  console.log("refined data", refinedData);
+
+  // const newestRefinedData = refinedData?.sort(
+  //   (a, b) => new Date(b.datetime) - new Date(a.datetime)
+  // );
+  // const newestData = newestRefinedData;
+  // console.log("refined data....", newestData);
 
   //----------------------------------------------------------------
   //--------------------------- maps sections--------------------------
   const location = useGeolocation();
+  // console.log("locattion", location);
+
   const [circleVisibility, setCircleVisibility] = useState(false);
   const center = {
     lat: 28.3974,
@@ -69,8 +73,34 @@ const MarkersMap = () => {
   const handleMarkerClick = () => {
     setCircleVisibility(!circleVisibility);
   };
-  if (isLoading) return <div> Loading....</div>;
-  if (isError) return <div> errorr....</div>;
+  // if (isLoading) return <div> Loading....</div>;
+  // if (isError) return <div> errorr....</div>;
+
+  // const Refineddatas = [
+  //   {
+  //     id: 121,
+  //     date: "2023-03-11T01:15:00+00:00",
+  //     name: "Babai",
+  //   },
+
+  //   {
+  //     id: 120,
+  //     date: "2023-08-06T01:15:00+00:00",
+  //     name: "Karnali",
+  //   },
+  //   {
+  //     id: 121,
+  //     date: "2023-03-09T01:15:00+00:00",
+  //     name: "Mechi",
+  //   },
+  // ];
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (isError) {
+    return <p>Error</p>;
+  }
   return (
     <div className="map-section-container">
       <h1 className="map-heading text-center py-5" data-aos="fade-up">
@@ -99,25 +129,27 @@ const MarkersMap = () => {
                 </FeatureGroup>
 
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                {refinedData.map((station, index) => {
+                {data?.map((station, index) => {
                   return (
                     <div key={index}>
                       <Marker
                         icon={
-                          Number(station?.waterLevel?.value) >
-                          Number(station?.danger_level)
+                          Number(station?.value) > Number(station?.danger_level)
                             ? redMarker
+                            : Number(station?.value) >
+                              Number(station?.warning_level)
+                            ? orangeMarker
                             : greenMarker
                         }
                         position={[station?.latitude, station?.longitude]}
                         eventHandlers={{ click: handleMarkerClick }}
                       >
                         <Popup>
+                          {station.datetime}
                           {station?.name} <br />
-                          Water Level:{" "}
-                          {Number(station?.waterLevel?.value).toFixed(2)}m{" "}
+                          Water Level: {Number(station?.value).toFixed(2)}m{" "}
                           <br />
-                          {Number(station?.waterLevel?.value) >
+                          {Number(station?.value) >
                             Number(station?.danger_level) && (
                             <span className="dangerLevelText">
                               {" "}

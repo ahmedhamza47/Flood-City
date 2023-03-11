@@ -6,7 +6,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
 import FuturePrediction from "./Pages/FuturePrediction";
 import { Auth0Provider } from "@auth0/auth0-react";
-import About from "./Pages/About";
+import { Analysis } from "./Pages/Analysis";
 function App() {
   return (
     <>
@@ -16,7 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/watch/" element={<RiverWatch />} />
           <Route path="/prediction/" element={<FuturePrediction />} />
-          <Route path="/about/" element={<About />} />
+          <Route path="/analysis/" element={<Analysis />} />
         </Routes>
       </BrowserRouter>
       <Footer />

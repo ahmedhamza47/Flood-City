@@ -20,3 +20,18 @@ path {
 .steadyText {
   color: green;
 }
+.chart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 5% 25%;
+}
+.lineGraphs:hover {
+  cursor: pointer;
+}
+.analysis-chart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 5% 15%;
+}

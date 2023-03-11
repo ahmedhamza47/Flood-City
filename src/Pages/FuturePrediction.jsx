@@ -1,10 +1,23 @@
 import React from "react";
 import { useRef } from "react";
 import PredictedMap from "../Components/Maps/Maps-Predicted";
+
 const FuturePrediction = () => {
   const observeRef = useRef(null);
   const handleArrowClick = () => {
     observeRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Water Level ",
+      },
+    },
   };
 
   return (

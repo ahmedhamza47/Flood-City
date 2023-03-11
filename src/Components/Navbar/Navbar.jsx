@@ -1,14 +1,51 @@
-import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
+import { useAuth0, User } from "@auth0/auth0-react";
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postUser } from "../API/API";
 
 function Navbar() {
   const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
-  //cart add in cart icon
-  const handleLogin = () => {
-    console.log("hello");
-    loginWithRedirect();
+  // console.log(user);
+  const [toggleColor, setToggleColor] = useState(false);
+  const location = useLocation();
+  const currentUrl = location.pathname;
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: postUser,
+    onSuccess: () => {
+      console.log("success");
+    },
+    onError: () => {
+      console.log("error");
+    },
+  });
+
+  const getToggleColor = () => {
+    if (currentUrl == "/analysis/") {
+      setToggleColor(true);
+    } else {
+      setToggleColor(false);
+    }
+  };
+  useEffect(() => {
+    getToggleColor();
+  }, [currentUrl]);
+  useEffect(() => {
+    if (user) {
+      mutate({ name: user.name, email: user.email });
+    }
+  }, [user]);
+  const handleLogin = async () => {
+    //   console.log("hello");
+    try {
+      const test = await loginWithRedirect();
+      // console.log(test, "test");
+    } catch (e) {
+      console.log(e);
+    }
   };
   const handleLogout = () => {
     logout({ returnTo: window.location.origin });
@@ -17,7 +54,11 @@ function Navbar() {
     <div>
       <nav
         className="navbar  navbar-expand-lg  navbar-light  pt-3"
-        style={{ backgroundColor: "transparent" }}
+        style={{
+          backgroundColor: toggleColor
+            ? "rgba(30, 52, 75, 0.83)"
+            : "transparent",
+        }}
       >
         <div className="container">
           <a className="navbar-brand lobster" href="index.html">
@@ -58,7 +99,7 @@ function Navbar() {
                   </div>
                 </li>
               </Link>
-              <Link to={"/about/"}>
+              <Link to={"/analysis/"}>
                 <li className="nav-item  ">
                   <a className="nav-link inactive" href="/">
                     Analysis<span className="sr-only">(current)</span>
