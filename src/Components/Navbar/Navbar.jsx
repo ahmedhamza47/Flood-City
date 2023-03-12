@@ -4,7 +4,7 @@ import { useAuth0, User } from "@auth0/auth0-react";
 import "./Navbar.css";
 import { Link, useLocation } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postUser } from "../API/API";
+import { fetchUser, postUser } from "../API/API";
 
 function Navbar() {
   const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
@@ -33,15 +33,29 @@ function Navbar() {
   useEffect(() => {
     getToggleColor();
   }, [currentUrl]);
+  const getUserData = async () => {
+    const data = await fetchUser();
+    // console.log("data", data);
+    data.forEach((individualUser) => {
+      if (individualUser?.email !== user?.email) {
+        mutate({
+          id: 1,
+          name: user.name,
+          email: user.email,
+          latitude: 27.232,
+          longitude: 28.22,
+          phone_no: 9841716938,
+        });
+      }
+    });
+  };
   useEffect(() => {
-    if (user) {
-      mutate({ name: user.name, email: user.email });
-    }
+    getUserData();
   }, [user]);
   const handleLogin = async () => {
     //   console.log("hello");
     try {
-      const test = await loginWithRedirect();
+      await loginWithRedirect();
       // console.log(test, "test");
     } catch (e) {
       console.log(e);

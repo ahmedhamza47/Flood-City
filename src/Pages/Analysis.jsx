@@ -8,16 +8,11 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Bar, Line } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 
-import { faker } from "@faker-js/faker";
 import { useQuery } from "@tanstack/react-query";
-import {
-  getFutureWeekdata,
-  getOneWeekAgoData,
-  fetchRealTimeData,
-  fetchHistoricalData,
-} from "../Components/API/API";
+import { fetchPredictedDatas } from "../Components/API/API";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -26,18 +21,9 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
 const getOptions = (title) => {
   const options = {
-    scales: {
-      yAxes: [
-        {
-          scaleLabel: {
-            display: true,
-            labelString: "Water Level (m)",
-          },
-        },
-      ],
-    },
     responsive: true,
     plugins: {
       legend: {
@@ -51,78 +37,133 @@ const getOptions = (title) => {
   };
   return options;
 };
+const riverNames = [
+  "sinja",
+  "humla_karnali",
+  "chisapani",
+  "sanobheri",
+  "dipayal",
+];
+
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}${month}${day}`;
+}
 
 export function Analysis() {
   const [labels, setLabels] = useState([]);
-
+  const [fullDate, setFullDate] = useState([]);
+  const [wLevel, setWLevel] = useState([]);
+  const [months, setMonths] = useState([]);
   useEffect(() => {
     const today = new Date();
-    const oneWeekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
     const oneWeekFromNow = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-    const dates = [];
-
+    const mmdd = [];
+    const yyyymmdd = [];
     for (
-      let date = oneWeekAgo;
+      let date = today;
       date <= oneWeekFromNow;
       date.setDate(date.getDate() + 1)
     ) {
-      dates.push(
+      mmdd.push(
         `${date.toLocaleString("default", {
           month: "short",
         })} ${date.getDate()}`
       );
+      yyyymmdd.push(formatDate(date));
+    }
+    setLabels(mmdd);
+    setFullDate(yyyymmdd);
+
+    //------------12 months for historical data -----------
+    const monthsArr = [];
+    for (let i = 0; i < 12; i++) {
+      const month = new Date(today.getFullYear(), today.getMonth() - i, 1); // calculate the month
+      const monthName = month.toLocaleString("default", { month: "short" }); // get the abbreviated month name
+      monthsArr.unshift(monthName); // add the month name to the array
     }
 
-    setLabels(dates);
+    setMonths(monthsArr);
   }, []);
-
-  // const futureData = {
-  //   Sinja: [],
-  //   Tila: [],
-  //   Humla_Karnali: [],
-  //   Budhiganga: [],
-  //   Kandra: [],
-  // };
-  const riverName = ["Sinja", "Tila", "Humla Karnali", "Budhiganga", "Kandra"];
-
-  const { data, isLoading, isError } = useQuery({
+  console.log(months);
+  console.log(labels);
+  //console.log(fullDate);
+  //const fullDate = ['20230312', '20230313', '20230314', '20230315', '20230316', '20230317', '20230318', '20230319']
+  const handlePredict = async () => {
+    try {
+      const results = await Promise.all(
+        riverNames.map(async (riverName) => {
+          const riverData = await Promise.all(
+            fullDate.map(async (date) => {
+              const predictedData = await fetchPredictedDatas(riverName, date);
+              return {
+                date: date,
+                value: predictedData.value,
+              };
+            })
+          );
+          const riverObject = {};
+          riverObject[riverName] = riverData;
+          return riverObject;
+        })
+      );
+      const levels = Object.assign({}, ...results);
+      setWLevel(levels);
+      return levels;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  // console.log(wLevel);
+  const { isLoading, isError } = useQuery({
     queryKey: ["datas"],
-    queryFn: () => fetchHistoricalData(),
+    queryFn: () => handlePredict(),
   });
-  console.log(data);
-  const water_level = [];
+  // console.log("levels", wLevel);
+  //   console.log("datassss", data);
+  // console.log(",,,,,,,", wLevel && wLevel?.chisapani && wLevel?.chisapani[0]);
 
-  data?.forEach((station) => {
-    water_level.push(station.value);
-  });
-  console.log(water_level);
-  // const prevData =  [
-  //   "0.2",
-  //   "0.223",
-  //   "0.211",
-  //   "0.25",
-  //   "0.25",
-  //   "0.21",
-  //   "0.25",
-  //   "0.27",
-  // ];
-  // for (let i = 0; i < riverName.length; i++) {
-  //   for (let j = 0; j < 7; j++) {
-  //     // const forecastedData = getFutureWeekdata(riverName[i], dates[j]);
-  //     const forecastedData = getFutureWeekdata();
-  //     futureData[riverName[i]].push(forecastedData);
-  //   }
-  // }
+  const riverData = {
+    chisapani: [1, 2, 3.2, 4.5, 5, 6, 7, 8, 2, 3, 1, 0.7],
+    dipayal: [1, 2, 3.2, 4.5, 5, 6, 7, 8, 2, 2, 1, 12, 10],
+    sinja: [1, 2, 3.2, 4.5, 5, 6, 7, 8, 2, 3, 4, 1.4, 1],
+    humla_karnali: [1, 2, 3.2, 4.5, 5, 6, 7, 8, 2, 1, 3.5, 2.4],
+    sanobheri: [1, 2, 3.2, 4.5, 5, 6, 7, 8, 2, 5.2, 6, 6.8, 5.3],
+  };
+  const mm = ["January", "February", "March", "April", "May", "June", "July"];
+  const historicalRiverData = (riverName) => {
+    const data = riverData[riverName];
+    if (!data) {
+      return null; // or return a default object with an error message or something
+    }
+    const chartData = {
+      labels: months,
+      datasets: [
+        {
+          fill: true,
+          label: `Water Level in (m) `,
+          data: data,
+          borderColor: "rgb(53, 162, 235)",
+          backgroundColor: "rgba(53, 162, 235, 0.5)",
+        },
+      ],
+    };
+    return chartData;
+  };
 
-  const RiverData = (river) => {
-    // console.log(rivers);
+  const PredictedRiverData = (riverName) => {
     const Data = {
       labels,
       datasets: [
         {
           fill: true,
           label: `Water Level in (m) `,
-          data: labels.map(() => faker.datatype.number({ min: 1, max: 10 })),
+          data:
+            wLevel &&
+            wLevel[riverName] &&
+            wLevel[riverName].map((station) => station?.value),
           borderColor: "rgb(53, 162, 235)",
           backgroundColor: "rgba(53, 162, 235, 0.5)",
         },
@@ -133,7 +174,7 @@ export function Analysis() {
 
   return (
     <div className="mt-5 rows">
-      {riverName.map((name) => {
+      {riverNames?.map((name) => {
         return (
           <div className="parent-row">
             <div className="row mt-5 line-row flex justify-content-center">
@@ -142,7 +183,7 @@ export function Analysis() {
                   options={getOptions(
                     `Historical Water Level for ${name} river`
                   )}
-                  data={RiverData(name)}
+                  data={historicalRiverData(name)}
                 />
               </div>
               <div className="col-lg-6 mt-5 line-col">
@@ -150,7 +191,7 @@ export function Analysis() {
                   options={getOptions(
                     `Predicted 1 week data for ${name} river`
                   )}
-                  data={RiverData(name)}
+                  data={PredictedRiverData(name)}
                 />
               </div>
             </div>

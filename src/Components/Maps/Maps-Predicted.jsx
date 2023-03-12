@@ -9,12 +9,12 @@ import {
   orangeMarker,
 } from "./MarkerColor";
 import { EditControl } from "react-leaflet-draw";
-import { Circle, Popup, Polyline } from "react-leaflet";
+import { Circle, Popup } from "react-leaflet";
 import useGeolocation from "./useGelolocation";
 
 import L from "leaflet";
 import { useQuery } from "@tanstack/react-query";
-import { fetchRealTimeData, getPredictedData } from "../API/API";
+import { getPredictedData } from "../API/API";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -26,7 +26,7 @@ import {
   Filler,
   Legend,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
+
 import { useNavigate } from "react-router-dom";
 
 ChartJS.register(
@@ -51,23 +51,58 @@ L.Icon.Default.mergeOptions({
 
 const PredictedMap = () => {
   //-----------------------form section-------------------------
-  const [dates, setDate] = useState(null);
-  // const [formattedDate, setFormattedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [responseData, setResponseData] = useState([]);
   const dateInputRef = useRef(null);
-  // console.log(dateInputRef);
-  // console.log("date", dates);
-  let formattedDate = "";
-  if (dates !== null && dates !== undefined) {
-    const dateObject = new Date(dates); // convert input value to Date object
+  const navigate = useNavigate();
 
-    console.log(dateObject);
+  const handlePredictButtonClick = async () => {
+    const formattedDate = formatDate(selectedDate);
+    const predictedData = await handleButtonClick(formattedDate);
+    navigate("/prediction/", { state: { predictedData } });
+  };
+
+  const formatDate = (date) => {
+    if (!date) {
+      return null;
+    }
+    const dateObject = new Date(date);
     const year = dateObject.getFullYear();
     const month = `${dateObject.getMonth() + 1}`.padStart(2, "0");
     const day = `${dateObject.getDate()}`.padStart(2, "0");
-    formattedDate = `${year}${month}${day}`;
-  }
-  console.log("formatted", formattedDate);
-  const navigate = useNavigate();
+    return `${year}${month}${day}`;
+  };
+
+  const handleButtonClick = async (formattedDate) => {
+    if (!formattedDate) {
+      return null;
+    }
+    try {
+      const response = await getPredictedData(formattedDate);
+      console.log("...", response);
+      setResponseData(response);
+      observeRef.current.scrollIntoView({ behavior: "smooth" });
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Failed to fetch predicted data");
+    }
+  };
+  const { isLoading, isError } = useQuery({
+    queryKey: ["datas", selectedDate],
+    queryFn: () => handleButtonClick(),
+  });
+  // const { data, isLoading, isError } = useQuery(
+  //   ["predictedData", selectedDate],
+  //   handleButtonClick,
+  //   {
+  //     enabled: false,
+  //   }
+  // );
+
+  console.log("isLoading", isLoading);
+  console.log("isError", isError);
+  console.log("datasss", responseData);
   //----------------------------------------------------------------
   //--------------------------- maps sections--------------------------
   const location = useGeolocation();
@@ -100,99 +135,13 @@ const PredictedMap = () => {
   const handleMarkerClick = () => {
     setCircleVisibility(!circleVisibility);
   };
-  // console.log("original data", river.datas);
 
-  const handlePredictButtonClick = async () => {
-    observeRef.current.scrollIntoView({ behavior: "smooth" });
-    const d = await getPredictedData(formattedDate);
-    console.log("hell");
-    console.log(d);
-    navigate("/prediction/");
-    return d;
-  };
-
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["datas"],
-    queryFn: () => handlePredictButtonClick(),
-  });
-  console.log(data);
-  // const refinedData = data?.filter((item) => {
-  //   return (
-  //     item.danger_level !== null &&
-  //     item.warning_level !== null &&
-  //     item.waterLevel !== null &&
-  //     item.danger_level !== ""
-  //   );
-  // });
-  //console.log(refinedData);
-  // const refinedData = {
-  //   datas: river.datas.map((data) => {
-  //     return {
-  //       id: data.id,
-  //       danger_level: data.danger_level,
-  //       warning_level: data.warning_level,
-  //       water_level: data.waterLevel.value,
-  //       name: data.name,
-  //       basin: data.basin,
-  //       longitude: data.longitude,
-  //       latitude: data.latitude,
-  //     };
-  //   }),
-  // };
-
-  //console.log("refined data", refinedData);
   const observeRef = useRef(null);
 
   // --------------------------map section ends -----------------------------------------------
 
-  // ========================graphs section starts  ===========================================================
-
-  //const labels = ["", "February", "March", "April", "May", "June", "July"];
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      title: {
-        display: true,
-        text: "Predicted Water Level for Next 7 days",
-      },
-    },
-  };
-
-  const today = new Date();
-  // const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const labels = [];
-
-  for (let i = 0; i < 7; i++) {
-    const date = today.getDate() + i;
-    const month = today.toLocaleDateString("default", { month: "short" });
-    const formattedDate = `${month} ${date}`;
-
-    labels.push(` ${formattedDate}`);
-  }
-  // console.log(labels);
-  const waterLevels = ["0.2", "0.223", "0.211", "0.3", "0.21", "0.25", "0.27"];
-  const datas = {
-    labels,
-    datasets: [
-      {
-        fill: true,
-        label: "Water level in (m)",
-        data: waterLevels.map((level) => level),
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-    ],
-  };
   return (
     <div>
-      <div className="chart">
-        <Line options={options} data={datas} />
-      </div>
-
       <div className="map-section-container">
         <h1 className="map-heading text-center pt-5 pb-3" data-aos="fade-up">
           {" "}
@@ -202,7 +151,7 @@ const PredictedMap = () => {
           <p className="select-date pr-5 mr-3">Select Date:</p>
           <input
             type="date"
-            onChange={(e) => setDate(e.target.value)}
+            onChange={(e) => setSelectedDate(e.target.value)}
             ref={dateInputRef}
             className="input"
           />{" "}
@@ -216,7 +165,7 @@ const PredictedMap = () => {
           </button>
         </div>
         <p className="sub-info" ref={observeRef}>
-          * The following data is of 03/11/2023
+          * The following data is of {selectedDate}
         </p>
         <div className="container map-container ">
           <div className="row  map-row">
@@ -240,8 +189,8 @@ const PredictedMap = () => {
                   else
                   {
                     <div>
-                      {data &&
-                        data?.map((station, index) => {
+                      {responseData &&
+                        responseData?.map((station, index) => {
                           return (
                             <div key={index}>
                               <Marker
@@ -338,6 +287,14 @@ const PredictedMap = () => {
     </div>
   );
 };
+//   return (
+//     <div>
+//       {isLoading && <p>Loading...</p>}
+//       {isError && <p>Error fetching data</p>}
+//       {data && <p>{data}</p>}
+//     </div>
+//   );
+// };
 
 export default PredictedMap;
 // {
