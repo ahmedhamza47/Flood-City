@@ -108,13 +108,18 @@ const MarkersMap = () => {
         Observe water level at different stations
       </h1>
       <p className="sub-info">
-        * The following data is of 02/13/2023 Time: 6:12 AM
+        * The following data is the latest data given by the station .
       </p>
       <div className="container map-container">
         <div className="row  map-row">
           <div className="col text-center">
             <div className="col">
-              <MapContainer center={center} zoom={7} ref={mapRef}>
+              <MapContainer
+                center={center}
+                zoom={7}
+                ref={mapRef}
+                attributionControl={false}
+              >
                 <FeatureGroup>
                   <EditControl
                     position="bottomleft"
@@ -145,8 +150,14 @@ const MarkersMap = () => {
                         eventHandlers={{ click: handleMarkerClick }}
                       >
                         <Popup>
-                          {station.datetime}
-                          {station?.name} <br />
+                          {new Intl.DateTimeFormat("en-US", {
+                            timeZone: "Asia/Kathmandu",
+                            dateStyle: "medium",
+                            timeStyle: "medium",
+                          }).format(
+                            new Date(station.datetime.split("+")[0])
+                          )}{" "}
+                          <br />
                           Water Level: {Number(station?.value).toFixed(2)}m{" "}
                           <br />
                           {Number(station?.value) >

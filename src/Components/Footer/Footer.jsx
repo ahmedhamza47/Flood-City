@@ -31,7 +31,7 @@ const Footer = () => {
             <p>Balaju,Kathmandu</p>
             <p>+977 9861329826</p>
             <p>+977 9849456798</p>
-            <p>floodcity@gmail.com</p>
+            <p>floodwarn@gmail.com</p>
           </div>
         </div>
       </footer>

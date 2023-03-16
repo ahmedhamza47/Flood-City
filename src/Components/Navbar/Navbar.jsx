@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { useAuth0, User } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import "./Navbar.css";
 import { Link, useLocation } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -12,9 +12,9 @@ function Navbar() {
   const [toggleColor, setToggleColor] = useState(false);
   const location = useLocation();
   const currentUrl = location.pathname;
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const { mutate } = useMutation({
-    mutationFn: postUser,
+    mutationFn: (req) => postUser(req),
     onSuccess: () => {
       console.log("success");
     },
@@ -35,19 +35,33 @@ function Navbar() {
   }, [currentUrl]);
   const getUserData = async () => {
     const data = await fetchUser();
-    // console.log("data", data);
+    console.log("data", data.length);
+    if (data.length === 0) {
+      mutate({
+        id: 1,
+        name: user.name,
+        email: user.email,
+        latitude: 27.232,
+        longitude: 28.22,
+        phone_no: 9841716938,
+      });
+    }
+    let emailFound = false;
     data.forEach((individualUser) => {
-      if (individualUser?.email !== user?.email) {
-        mutate({
-          id: 1,
-          name: user.name,
-          email: user.email,
-          latitude: 27.232,
-          longitude: 28.22,
-          phone_no: 9841716938,
-        });
+      if (individualUser?.email === user?.email) {
+        emailFound = true;
       }
     });
+    if (!emailFound) {
+      mutate({
+        id: 1,
+        name: user.name,
+        email: user.email,
+        latitude: 27.232,
+        longitude: 28.22,
+        phone_no: 9841716938,
+      });
+    }
   };
   useEffect(() => {
     getUserData();
@@ -65,7 +79,7 @@ function Navbar() {
     logout({ returnTo: window.location.origin });
   };
   return (
-    <div>
+    <div className="d-flex flex-row align-items-center">
       <nav
         className="navbar  navbar-expand-lg  navbar-light  pt-3"
         style={{
@@ -130,7 +144,7 @@ function Navbar() {
               {/* user login and logout */}
 
               {isAuthenticated && (
-                <li className="nav-item right  user-dropdown dropdown mt-1">
+                <li className="nav-item right  user-dropdown dropdown pr-5 ">
                   <div
                     className=" inactive dropdown-toggle"
                     id="navbarDropdown"
@@ -143,11 +157,11 @@ function Navbar() {
                       src={user.picture}
                       alt={user.name}
                       style={{ width: "2.5rem", height: "2.5rem" }}
-                      className="user-image"
+                      className="user-image "
                     />
                   </div>
                   <div
-                    className="dropdown-menu user-dropdown-menu justify-content-center text-center"
+                    className="dropdown-menu user-dropdown-menu d-flex justify-content-center flex-column fle  text-center mt-3   "
                     aria-labelledby="navbarDropdown"
                   >
                     <div className="dropdown-item">{user.name}</div>

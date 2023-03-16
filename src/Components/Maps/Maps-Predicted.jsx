@@ -171,7 +171,12 @@ const PredictedMap = () => {
           <div className="row  map-row">
             <div className="col text-center">
               <div className="col">
-                <MapContainer center={center} zoom={7} ref={mapRef}>
+                <MapContainer
+                  center={center}
+                  zoom={7}
+                  ref={mapRef}
+                  attributionControl={false}
+                >
                   <FeatureGroup>
                     <EditControl
                       position="bottomleft"
