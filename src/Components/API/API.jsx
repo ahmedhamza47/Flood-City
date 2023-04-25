@@ -49,11 +49,11 @@ export const getPredictedData = async (date) => {
     `http://192.168.101.9:8000/forecast/dipayal/${date}`
   );
   const datas = [
-    sinjaData.data,
-    humlaKarnaliData.data,
-    dipayalData.data,
-    chisapaniData.data,
-    sanoBheriData.data,
+    sinjaData?.data,
+    humlaKarnaliData?.data,
+    dipayalData?.data,
+    chisapaniData?.data,
+    sanoBheriData?.data,
   ];
   return datas;
 };

@@ -1,11 +1,13 @@
 import React from "react";
 import { useRef } from "react";
 import PredictedMap from "../Components/Maps/Maps-Predicted";
+import { toast } from "react-toastify";
 
 const FuturePrediction = () => {
   const observeRef = useRef(null);
   const handleArrowClick = () => {
     observeRef.current.scrollIntoView({ behavior: "smooth" });
+    console.log(observeRef, "observeRef")
   };
   const options = {
     responsive: true,
@@ -25,7 +27,7 @@ const FuturePrediction = () => {
       <div className="river-image">
         <img src={require("../images/prediction.webp")} alt="" />
         <div className="overlay"></div>
-        <div className="text-over-images">
+        <div className="text-over-images d-flex flex-column align-items-center">
           <div className="title">
             <h1 className="slider-info">
               Predict Future Situations <br />
@@ -35,41 +37,41 @@ const FuturePrediction = () => {
           <div className="info">
             <h3> Prediction</h3>
           </div>
-          <div className="arrow-container ">
+          <div className="arrow-container mt-3 ">
             <div className="arrow" onClick={handleArrowClick}>
-              <i className="icon fa fa-chevron-down" aria-hidden="true"></i>
+              <i className="icon fa fa-chevron-down " aria-hidden="true"></i>
             </div>
           </div>
         </div>
       </div>
 
+      <div className="container-fluid ">
       <div
-        className="observation-explanation justify-content-center py-5 my-5"
+        className="observation-explanation py-5 "
         ref={observeRef}
         data-aos="fade-up"
       >
-        <div className="row no-gutters">
-          <div className="col-lg-6 pl-5">
-            <img src={require("../images/map (2).jpg")} alt="" />
+        <h2 className="realtime-heading text-center">Geo Referencing</h2>
+        <div className="row mt-5 no-gutters   d-flex flex-lg-row flex-md-column  justify-content-center align-items-center">
+         
+          <div className="col-lg-6 text-center">
+            <img src={require("../images/georeferncing.png")} alt="" className="realTimeImg" />
           </div>
-          <div className="col-lg-6 my-auto description observation-description">
+          <div className="col-lg-6  observation-description">
             <p>
-              Stay ahead of potential floods with our future water level
-              predictions for rivers in Nepal. Our data takes into account
-              various factors including precipitation, river flow, topography,
-              and historical data to provide the most accurate predictions
-              possible. Stay informed and stay prepared with our data.
+            FloodWarn adds georeferences to the data, so it can be viewed on a map. After extracting various location information from the text by our IE process, we match it with our geonames database and determine the final location using an optimisation algorithm. For instance, ambiguous location names that refer to multiple locations, are resolved by weighing the alternatives based on proximity to any other locations mentioned in the message.
             </p>
-            <p>With information on:</p>
+            <p className="mb-1">With information on:</p>
             <ul className="ml-5">
-              <li>Water Level</li>
+              <li>Maps</li>
+              <li>River Water Level</li>
               <li>Location of Station</li>
-              <li>Red Marker to indicate chances of flood</li>
-              <li>Green Marker to indicate water level below danger level</li>
-              <li>Blue marker to indicate current location</li>
             </ul>
           </div>
         </div>
+        
+        </div>
+
       </div>
       <div className=" observeration section" ref={observeRef}>
         <div className="map-section">

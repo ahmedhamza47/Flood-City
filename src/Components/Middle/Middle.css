@@ -3,12 +3,11 @@
   color: rgb(81, 78, 78);
   font-weight: 700;
 }
-.main-description {
+.main-description-description  {
   text-align: center;
   width: 35%;
-  position: relative;
-  left: 30%;
-  margin: 4rem 0rem;
+  color: rgb(81, 78, 78);
+  margin: 2rem 0rem 2rem 0rem;
 }
 
 .mid-mid-section {

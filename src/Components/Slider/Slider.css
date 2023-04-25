@@ -7,6 +7,10 @@
 .carousel-item {
   position: relative;
 }
+.border-slider{
+  border-radius: 50% !important;
+}
+
 .overlay {
   position: absolute;
   top: 0;

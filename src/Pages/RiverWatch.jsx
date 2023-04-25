@@ -3,7 +3,6 @@ import "./RiverWatch.css";
 import MarkersMap from "../Components/Maps/Maps_RealTime";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
 AOS.init({
   offset: 120,
   duration: 1200,
@@ -17,35 +16,38 @@ const RiverWatch = () => {
   return (
     <div>
       <div className="river-image">
-        <img src={require("../images/riverWatch.jpg")} alt="" />
+        <img src={require("../images/riverWatch.jpg")} alt=""  className="watch-img"/>
         <div className="overlay"></div>
-        <div className="text-over-images">
+        <div className="text-over-images d-flex flex-column align-items-center">
           <div className="title">
             <h1 className="slider-info">
               Explore current situation <br />
               for flood in rivers of Nepal
             </h1>
           </div>
-          <div className="info">
+          <div className="info ">
             <h3> Observation</h3>
           </div>
-          <div className="arrow-container ">
+          <div className="arrow-container mt-3">
             <div className="arrow" onClick={handleArrowClick}>
               <i className="icon fa fa-chevron-down" aria-hidden="true"></i>
             </div>
           </div>
         </div>
       </div>
+      <div className="container-fluid ">
       <div
-        className="observation-explanation justify-content-center py-5 my-5"
+        className="observation-explanation py-5 "
         ref={observeRef}
         data-aos="fade-up"
       >
-        <div className="row no-gutters">
-          <div className="col-lg-6 pl-5">
-            <img src={require("../images/map (2).jpg")} alt="" />
+        <h2 className="realtime-heading text-center">Real-time Media Monitoring</h2>
+        <div className="row mt-5 no-gutters   d-flex flex-lg-row flex-md-column  justify-content-center align-items-center">
+         
+          <div className="col-lg-6 text-center">
+            <img src={require("../images/realtime.png")} alt="" className="realTimeImg" />
           </div>
-          <div className="col-lg-6 my-auto description observation-description">
+          <div className="col-lg-6  observation-description">
             <p>
               Stay informed with real-time water level information for rivers in
               Nepal, updated every 5 minutes. Get ahead of potential floods with
@@ -62,14 +64,16 @@ const RiverWatch = () => {
             </ul>
           </div>
         </div>
-      </div>
+        </div>
 
-      <div className=" observeration section">
+      </div>
+ 
         <div className="map-section ">
           <MarkersMap />
         </div>
       </div>
-    </div>
+      
+    
   );
 };
 

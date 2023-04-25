@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,10 +9,17 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-
+import { MdFlood } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
+import {
+  predictedRiverData,
+  riverData,
+  cardData,
+} from "../Datas/AnalysisDatas";
+import { DataContext } from "../Components/context/context";
 import { fetchPredictedDatas } from "../Components/API/API";
-
+import { SiFlood } from "react-icons/si";
+import { RiFloodFill } from "react-icons/ri";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -45,94 +52,10 @@ const riverNames = [
   "dipayal",
 ];
 
-function formatDate(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}${month}${day}`;
-}
-
 export function Analysis() {
-  const [labels, setLabels] = useState([]);
-  const [fullDate, setFullDate] = useState([]);
-  const [wLevel, setWLevel] = useState([]);
-  const [months, setMonths] = useState([]);
-  useEffect(() => {
-    const today = new Date();
-    const oneWeekFromNow = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-    const mmdd = [];
-    const yyyymmdd = [];
-    for (
-      let date = today;
-      date <= oneWeekFromNow;
-      date.setDate(date.getDate() + 1)
-    ) {
-      mmdd.push(
-        `${date.toLocaleString("default", {
-          month: "short",
-        })} ${date.getDate()}`
-      );
-      yyyymmdd.push(formatDate(date));
-    }
-    setLabels(mmdd);
-    setFullDate(yyyymmdd);
-
-    //------------12 months for historical data -----------
-    const monthsArr = [];
-    for (let i = 0; i < 12; i++) {
-      const month = new Date(today.getFullYear(), today.getMonth() - i, 1); // calculate the month
-      const monthName = month.toLocaleString("default", { month: "short" }); // get the abbreviated month name
-      monthsArr.unshift(monthName); // add the month name to the array
-    }
-
-    setMonths(monthsArr);
-  }, []);
-  console.log(months);
-  console.log(labels);
-  //console.log(fullDate);
-  //const fullDate = ['20230312', '20230313', '20230314', '20230315', '20230316', '20230317', '20230318', '20230319']
-  const handlePredict = async () => {
-    try {
-      const results = await Promise.all(
-        riverNames.map(async (riverName) => {
-          const riverData = await Promise.all(
-            fullDate.map(async (date) => {
-              const predictedData = await fetchPredictedDatas(riverName, date);
-              return {
-                date: date,
-                value: predictedData.value,
-              };
-            })
-          );
-          const riverObject = {};
-          riverObject[riverName] = riverData;
-          return riverObject;
-        })
-      );
-      const levels = Object.assign({}, ...results);
-      setWLevel(levels);
-      return levels;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  // console.log(wLevel);
-  const { isLoading, isError } = useQuery({
-    queryKey: ["datas"],
-    queryFn: () => handlePredict(),
-  });
-  // console.log("levels", wLevel);
-  //   console.log("datassss", data);
-  // console.log(",,,,,,,", wLevel && wLevel?.chisapani && wLevel?.chisapani[0]);
-
-  const riverData = {
-    chisapani: [1, 2, 3.2, 4.5, 5, 6, 7, 8, 2, 3, 1, 0.7],
-    dipayal: [1, 2, 3.2, 4.5, 5, 6, 7, 8, 2, 2, 1, 12, 10],
-    sinja: [1, 2, 3.2, 4.5, 5, 6, 7, 8, 2, 3, 4, 1.4, 1],
-    humla_karnali: [1, 2, 3.2, 4.5, 5, 6, 7, 8, 2, 1, 3.5, 2.4],
-    sanobheri: [1, 2, 3.2, 4.5, 5, 6, 7, 8, 2, 5.2, 6, 6.8, 5.3],
-  };
-  //const mm = ["January", "February", "March", "April", "May", "June", "July"];
+  const { labels, months, wLevel, setWlevel, fullDate } =
+    useContext(DataContext);
+  const [selectedRiver, setSelectedRiver] = useState("sinja");
   const historicalRiverData = (riverName) => {
     const data = riverData[riverName];
     if (!data) {
@@ -160,10 +83,11 @@ export function Analysis() {
         {
           fill: true,
           label: `Water Level in (m) `,
-          data:
-            wLevel &&
-            wLevel[riverName] &&
-            wLevel[riverName].map((station) => station?.value),
+          // data:
+          //   wLevel &&
+          //   wLevel[riverName] &&
+          //   wLevel[riverName].map((station) => station?.value),
+          data: predictedRiverData[riverName],
           borderColor: "rgb(53, 162, 235)",
           backgroundColor: "rgba(53, 162, 235, 0.5)",
         },
@@ -171,33 +95,130 @@ export function Analysis() {
     };
     return Data;
   };
-
+  const handlePredict = async () => {
+    try {
+      const results = await Promise.all(
+        riverNames.map(async (riverName) => {
+          const riverData = await Promise.all(
+            fullDate.map(async (date) => {
+              const predictedData = await fetchPredictedDatas(riverName, date);
+              return {
+                date: date,
+                value: predictedData.value,
+              };
+            })
+          );
+          const riverObject = {};
+          riverObject[riverName] = riverData;
+          return riverObject;
+        })
+      );
+      const levels = Object.assign({}, ...results);
+      setWlevel(levels);
+      return levels;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  // console.log(wLevel);
+  useQuery({
+    queryKey: ["datas"],
+    queryFn: () => handlePredict(),
+  });
+ // console.log(cardData[selectedRiver], "cardData");
   return (
-    <div className="my-5 rows">
-      {riverNames?.map((name) => {
-        return (
+    <div className="container-fluid" style={{ backgroundColor: "#f5f5f5" }}>
+      <div className=" my-5">
+        <div className=" d-flex flex-row justify-content-center mt-5 pt-5 ">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1 " className="select-river text-center">Select River</label>
+            <select
+              class="form-control"
+              id="exampleFormControlSelect1"
+              value={selectedRiver}
+              onChange={(e) => setSelectedRiver(e.target.value)}
+            >
+              <option> sinja</option>
+              <option>humla_karnali</option>
+              <option>chisapani </option>
+              <option>sanobheri</option>
+              <option>dipayal</option>
+            </select>
+          </div>
+        </div>
+        {selectedRiver && (
+          <div className="row no-gutters d-flex justify-content-center mt-5  pl-5">
+            <div className="col-lg-3">
+              <div className="card-wrapper">
+                <div className="card-section d-flex flex-row justify-content-center  align-items-center ">
+                  <SiFlood
+                    fill="rgba(30, 52, 75, 0.83)"
+                    style={{ fontSize: "2.5rem" }}
+                    className="mr-4"
+                  />
+                  <div className="pt-3">
+                    <h5>{cardData[selectedRiver]?.low}m</h5>
+                    <p>Lowest Water Level </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-3">
+              <div className="card-wrapper ">
+                <div className="card-section  d-flex flex-row justify-content-center align-items-center ">
+                  <RiFloodFill
+                    fill="rgba(30, 52, 75, 0.83)"
+                    style={{ fontSize: "2.5rem" }}
+                    className="mr-4"
+                  />
+                  <div className="pt-3">
+                    <h5>{cardData[selectedRiver]?.high}m</h5>
+                    <p> Highest Water Level</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-3">
+              <div className="card-wrapper">
+                <div className="card-section d-flex flex-row justify-content-center align-items-center ">
+                  <MdFlood
+                    fill="rgba(30, 52, 75, 0.83)"
+                    style={{ fontSize: "2.5rem" }}
+                    className="mr-4"
+                  />
+
+                  <div className="pt-3">
+                    <h5>{cardData[selectedRiver]?.floodRecorded}</h5>
+                    <p> Last Flood Recorded </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {selectedRiver && (
           <div className="parent-row">
-            <div className="row mt-5 line-row flex justify-content-center">
-              <div className="col-lg-6 mt-5 line-col">
+            <div className="row  mt-5 line-row flex justify-content-center">
+              <div className="col-lg-6  line-col">
                 <Line
                   options={getOptions(
-                    `Historical Water Level for ${name} river`
+                    `Historical Water Level for ${selectedRiver} river`
                   )}
-                  data={historicalRiverData(name)}
+                  data={historicalRiverData(selectedRiver)}
                 />
               </div>
-              <div className="col-lg-6 mt-5 line-col">
+              <div className="col-lg-6  line-col">
                 <Line
                   options={getOptions(
-                    `Predicted 1 week data for ${name} river`
+                    `Predicted 1 week data for ${selectedRiver} river`
                   )}
-                  data={PredictedRiverData(name)}
+                  data={PredictedRiverData(selectedRiver)}
                 />
               </div>
             </div>
           </div>
-        );
-      })}
+        )}
+      </div>
     </div>
   );
 }

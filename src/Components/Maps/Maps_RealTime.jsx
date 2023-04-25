@@ -15,6 +15,7 @@ import { river } from "../../Data";
 import L from "leaflet";
 import { fetchRealTimeData, pushRealTimeData } from "../API/API";
 import { useQuery } from "@tanstack/react-query";
+import { FaMapMarkerAlt } from "react-icons/fa";
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon.png",
@@ -94,30 +95,74 @@ const MarkersMap = () => {
   //     name: "Mechi",
   //   },
   // ];
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  // if (isLoading) {
+  //   return <p>Loading...</p>;
+  // }
 
-  if (isError) {
-    return <p>Error</p>;
-  }
+  // if (isError) {
+  //   return <p>Error</p>;
+  // }
   return (
-    <div className="map-section-container">
-      <h1 className="map-heading text-center py-5" data-aos="fade-up">
+    <div className=" map-section-container ">
+      <div className="container d-flex flex-column align-items-center ">
+    <div data-aos="fade-up">
+
+      <h2 className="map-heading text-center pt-5 pb-3" >
         {" "}
-        Observe water level at different stations
-      </h1>
-      <p className="sub-info">
-        * The following data is the latest data given by the station .
+        End-To-End Information Processing 
+        </h2>
+      <div className="d-flex flex-column align-items-center">
+
+      <p className="text-center col-lg-10 " style={{fontSize:'1rem'}}>
+   
+      FloodWarn analyzes and processes water-related information from a large number of online sources, and disseminates the results of these analyses through a dashboard and an API. Our systems are developed in close collaboration with both academic and non-academic partners and feature state-of-the-art machine learning and natural language processing algorithms. In this section we present some of the most important features of the software.
+      <br />
+
       </p>
-      <div className="container map-container">
+     
+      <div   >
+
+        <div className="d-flex  mx-5 my-3">
+          <img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png' alt="" className="marker-img mx-3"/>
+          <p className="my-auto">Blue marker indicates Current Location.</p>
+        </div>
+        <div className="d-flex mx-5 my-3">
+          <img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png' alt="" className="marker-img mx-3"/>
+          <p className="my-auto">Green marker indicates Water level below warning level.</p>
+        </div>
+
+
+        <div className=" d-flex mx-5 my-3">
+          <img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png' alt="" className="marker-img mx-3"/>
+          <p className="my-auto">Yellow marker indicates Water level above warning level.</p>
+        </div>
+        <div className=" d-flex mx-5 mt-3 mb-3">
+          <img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png' alt="" className="marker-img mx-3"/>
+          <p className="my-auto">Red marker indicates Water level above danger level.</p>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div className="w-100 mt-5  pt-5">
+            <div className="d-flex flex-row  align-middle justify-content-end   pl-5 ">
+            
+              <button
+                className="btn btn-primary btn-location ml-3 mr-3 pl-1  "
+                onClick={showMyLocation}
+              >
+              <FaMapMarkerAlt fill="white" className='mr-2'/>
+                Locate Me
+              </button>
+            </div>
+          </div>
+      <div className="container map-container mb-5 mt-3 pb-5">
         <div className="row  map-row">
-          <div className="col text-center">
-            <div className="col">
+
               <MapContainer
                 center={center}
                 zoom={7}
                 ref={mapRef}
+                fullscreenControl={true}
                 attributionControl={false}
               >
                 <FeatureGroup>
@@ -160,6 +205,7 @@ const MarkersMap = () => {
                           <br />
                           Water Level: {Number(station?.value).toFixed(2)}m{" "}
                           <br />
+                          {station?.name} <br />
                           {Number(station?.value) >
                             Number(station?.danger_level) && (
                             <span className="dangerLevelText">
@@ -197,26 +243,16 @@ const MarkersMap = () => {
             </div>
           </div>
         </div>
-        <div className="row py-5">
-          <div className="col d-flex justify-content-center">
-            <button
-              className="btn btn-primary btn-location"
-              onClick={showMyLocation}
-            >
-              Locate Me
-            </button>
-          </div>
-        </div>
+      
       </div>
-    </div>
   );
 };
 
 export default MarkersMap;
-{
+
   /* <Circle
                       center={[27.752927449398864, 85.30272781848907]}
                       pathOptions={redOptions}
                       radius={200}
                     /> */
-}
+

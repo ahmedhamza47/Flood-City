@@ -1,16 +1,17 @@
 import React from "react";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "./Slider.css";
 const Slider = () => {
   return (
-    <div>
+    <div className="border-slider">
       <div
         id="carouselExampleFade"
         className="carousel slide carousel-fade carousel-slider"
         data-ride="carousel"
+        data-pause="false"
+        data-interval="1000"
       >
         <div className="carousel-inner">
-          <div className="carousel-item active " data-interval="2000">
+          <div className="carousel-item active ">
             <img
               src={require("../../images/slider/img-3.webp")}
               className="d-block w-100"
@@ -29,7 +30,7 @@ const Slider = () => {
             </div>
             <div className="overlay"></div>
           </div>
-          <div className="carousel-item" data-interval="2000">
+          <div className="carousel-item">
             <img
               src={require("../../images/slider/img-1.webp")}
               className="d-block w-100"
@@ -49,7 +50,7 @@ const Slider = () => {
 
             <div className="overlay"></div>
           </div>
-          <div className="carousel-item" data-interval="2000">
+          <div className="carousel-item">
             <img
               src={require("../../images/slider/img-2.webp")}
               className="d-block w-100"

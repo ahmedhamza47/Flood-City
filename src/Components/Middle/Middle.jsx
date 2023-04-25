@@ -13,21 +13,19 @@ const Middle = () => {
   return (
     <div>
       <div className="container">
-        <div className="mid-top-section">
           <div
-            className="justify-content-center text-center"
             data-aos="fade-up"
+            className="d-flex flex-column align-items-center"
           >
             <h1 className="heading">What we do</h1>
 
-            <p className="main-description description">
+            <p className="main-description-description description">
               Get accurate water level information and predictions for rivers in
               Nepal with our website. Our machine learning algorithms take into
               account various factors for the most accurate predictions
               possible.
-              <br /> <span> </span>
+             
             </p>
-          </div>
         </div>
         {/* -------------Middle Section--------------- */}
         <div className="mid-mid-section justify-content-center text-center pr-4 my-5">

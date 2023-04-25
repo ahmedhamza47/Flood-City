@@ -1,13 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import "./Navbar.css";
 import { Link, useLocation } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { fetchUser, postUser } from "../API/API";
+import { DataContext } from "../context/context";
 
 function Navbar() {
   const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
+  const {handleArrowClick}=  useContext(DataContext)
+
   // console.log(user);
   const [toggleColor, setToggleColor] = useState(false);
   const location = useLocation();
@@ -41,8 +44,8 @@ function Navbar() {
         id: 1,
         name: user.name,
         email: user.email,
-        latitude: 27.232,
-        longitude: 28.22,
+        latitude: location.coordinates.lat,
+        longitude: location.coordinates.lng,
         phone_no: 9841716938,
       });
     }
@@ -79,6 +82,8 @@ function Navbar() {
     logout({ returnTo: window.location.origin });
   };
   return (
+
+
     <div className="d-flex flex-row align-items-center">
       <nav
         className="navbar  navbar-expand-lg  navbar-light  pt-3"
@@ -106,28 +111,28 @@ function Navbar() {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto mr-auto">
-              <Link to={"/"}>
+              <Link to={"/"} className="links">
                 <li className="nav-item ">
                   <div className="nav-link active">
                     Home <span className="sr-only">(current)</span>
                   </div>
                 </li>
               </Link>
-              <Link to={"/watch/"}>
+              <Link to={"/watch/"} className="links">
                 <li className="nav-item ">
                   <div className="nav-link inactive">
                     River Watch <span className="sr-only">(current)</span>
                   </div>
                 </li>
               </Link>
-              <Link to={"/prediction/"}>
+              <Link to={"/prediction/"} className="links">
                 <li className="nav-item ">
                   <div className="nav-link inactive">
                     Future Prediction <span className="sr-only">(current)</span>
                   </div>
                 </li>
               </Link>
-              <Link to={"/analysis/"}>
+              <Link to={"/analysis/"} className="links">
                 <li className="nav-item  ">
                   <a className="nav-link inactive" href="/">
                     Analysis<span className="sr-only">(current)</span>
@@ -135,16 +140,16 @@ function Navbar() {
                 </li>
               </Link>
 
-              <li className="nav-item ">
-                <a className="nav-link inactive" href="/">
+              <li className="nav-item " >
+                <div className="nav-link inactive" onClick={handleArrowClick} >
                   Contact <span className="sr-only">(current)</span>
-                </a>
+                </div>
               </li>
 
               {/* user login and logout */}
 
               {isAuthenticated && (
-                <li className="nav-item right  user-dropdown dropdown pr-5 ">
+                <li className="nav-item right  user-dropdown dropdown ">
                   <div
                     className=" inactive dropdown-toggle"
                     id="navbarDropdown"
@@ -157,11 +162,11 @@ function Navbar() {
                       src={user.picture}
                       alt={user.name}
                       style={{ width: "2.5rem", height: "2.5rem" }}
-                      className="user-image "
+                      className="user-image"
                     />
                   </div>
                   <div
-                    className="dropdown-menu user-dropdown-menu d-flex justify-content-center flex-column fle  text-center mt-3   "
+                    className="dropdown-menu user-dropdown-menu justify-content-center text-center"
                     aria-labelledby="navbarDropdown"
                   >
                     <div className="dropdown-item">{user.name}</div>
@@ -185,7 +190,7 @@ function Navbar() {
                     className="btn btn-outline-primary btn-login mt-1 "
                     onClick={() => handleLogin()}
                   >
-                    {" "}
+             
                     Login
                   </button>
                 </li>
