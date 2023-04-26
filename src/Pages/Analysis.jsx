@@ -87,7 +87,7 @@ export function Analysis() {
           //   wLevel &&
           //   wLevel[riverName] &&
           //   wLevel[riverName].map((station) => station?.value),
-          data: predictedRiverData[riverName],
+         data: predictedRiverData[riverName],
           borderColor: "rgb(53, 162, 235)",
           backgroundColor: "rgba(53, 162, 235, 0.5)",
         },
@@ -125,15 +125,20 @@ export function Analysis() {
     queryKey: ["datas"],
     queryFn: () => handlePredict(),
   });
- // console.log(cardData[selectedRiver], "cardData");
+  // console.log(cardData[selectedRiver], "cardData");
   return (
     <div className="container-fluid" style={{ backgroundColor: "#f5f5f5" }}>
       <div className=" my-5">
         <div className=" d-flex flex-row justify-content-center mt-5 pt-5 ">
-          <div class="form-group">
-            <label for="exampleFormControlSelect1 " className="select-river text-center">Select River</label>
+          <div className="form-group">
+            <label
+              htmlFor="exampleFormControlSelect1 "
+              className="select-river text-center"
+            >
+              Select River
+            </label>
             <select
-              class="form-control"
+              className="form-control"
               id="exampleFormControlSelect1"
               value={selectedRiver}
               onChange={(e) => setSelectedRiver(e.target.value)}

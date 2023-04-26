@@ -11,21 +11,20 @@ import { useRef } from "react";
 import { ToastContainer } from "react-toastify";
 function App() {
   const footerRef = useRef(null);
-  
+
   return (
     <>
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home/>} />
+          <Route path="/" element={<Home />} />
           <Route path="/watch/" element={<RiverWatch />} />
           <Route path="/prediction/" element={<FuturePrediction />} />
           <Route path="/analysis/" element={<Analysis />} />
         </Routes>
       </BrowserRouter>
-      <Footer footerRef = {footerRef} />
+      <Footer footerRef={footerRef} />
       <ToastContainer />
-
     </>
   );
 }

@@ -9,6 +9,7 @@
 .lobster {
   font-family: "Lobster", cursive;
   letter-spacing: 2px;
+  font-size: 1.5rem;
 }
 .gray {
   color: rgb(230, 220, 220);
@@ -51,7 +52,7 @@
 .nav-item {
   margin-left: 1rem;
   margin-right: 1rem;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .active {

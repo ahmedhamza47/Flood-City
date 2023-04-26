@@ -6,15 +6,16 @@ import { Link, useLocation } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { fetchUser, postUser } from "../API/API";
 import { DataContext } from "../context/context";
-
+import { v4 as uuidv4 } from "uuid";
 function Navbar() {
   const { loginWithRedirect, isAuthenticated, logout, user } = useAuth0();
-  const {handleArrowClick}=  useContext(DataContext)
+  const { handleArrowClick } = useContext(DataContext);
 
   // console.log(user);
   const [toggleColor, setToggleColor] = useState(false);
   const location = useLocation();
   const currentUrl = location.pathname;
+ //console.log(uuidv4())
   // const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: (req) => postUser(req),
@@ -33,6 +34,7 @@ function Navbar() {
       setToggleColor(false);
     }
   };
+  console.log(uuidv4())
   useEffect(() => {
     getToggleColor();
   }, [currentUrl]);
@@ -41,7 +43,7 @@ function Navbar() {
     console.log("data", data.length);
     if (data.length === 0) {
       mutate({
-        id: 1,
+        id: uuidv4(),
         name: user.name,
         email: user.email,
         latitude: location.coordinates.lat,
@@ -57,7 +59,7 @@ function Navbar() {
     });
     if (!emailFound) {
       mutate({
-        id: 1,
+        id: uuidv4(),
         name: user.name,
         email: user.email,
         latitude: 27.232,
@@ -82,8 +84,6 @@ function Navbar() {
     logout({ returnTo: window.location.origin });
   };
   return (
-
-
     <div className="d-flex flex-row align-items-center">
       <nav
         className="navbar  navbar-expand-lg  navbar-light  pt-3"
@@ -134,14 +134,14 @@ function Navbar() {
               </Link>
               <Link to={"/analysis/"} className="links">
                 <li className="nav-item  ">
-                  <a className="nav-link inactive" href="/">
+                  <div className="nav-link inactive" >
                     Analysis<span className="sr-only">(current)</span>
-                  </a>
+                  </div>
                 </li>
               </Link>
 
-              <li className="nav-item " >
-                <div className="nav-link inactive" onClick={handleArrowClick} >
+              <li className="nav-item ">
+                <div className="nav-link inactive" onClick={handleArrowClick}>
                   Contact <span className="sr-only">(current)</span>
                 </div>
               </li>
@@ -160,7 +160,7 @@ function Navbar() {
                   >
                     <img
                       src={user.picture}
-                      alt={user.name}
+                      alt="user"
                       style={{ width: "2.5rem", height: "2.5rem" }}
                       className="user-image"
                     />
@@ -190,7 +190,6 @@ function Navbar() {
                     className="btn btn-outline-primary btn-login mt-1 "
                     onClick={() => handleLogin()}
                   >
-             
                     Login
                   </button>
                 </li>
