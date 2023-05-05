@@ -1,35 +1,40 @@
 import { faker } from "@faker-js/faker";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const fetchRealTimeData = async () => {
-  const data = await axios.get("http://192.168.101.9:3300/realtime");
-  const refinedData = data?.data?.filter((item) => {
-    return (
-      item.danger_level !== null &&
-      item.warning_level !== null &&
-      item.waterLevel !== null &&
-      item.danger_level !== ""
-    );
-  });
-  // console.log("refined ", refinedData);
-  let refinedDatas = "";
-  if (refinedData) {
-    const groupedDatas = refinedData?.reduce((groups, data) => {
-      if (
-        !groups[data.id] ||
-        new Date(data.datetime) > new Date(groups[data.id].datetime)
-      ) {
-        groups[data.id] = data;
+  try {
+    const data = await axios.get("http://192.168.101.9:3300/realtime");
+    console.log(data, "data");
+    if (data) {
+      const refinedData = data?.data?.filter((item) => {
+        return (
+          item.danger_level !== null &&
+          item.warning_level !== null &&
+          item.waterLevel !== null &&
+          item.danger_level !== ""
+        );
+      });
+      let refinedDatas = "";
+      if (refinedData) {
+        const groupedDatas = refinedData?.reduce((groups, data) => {
+          if (
+            !groups[data.id] ||
+            new Date(data.datetime) > new Date(groups[data.id].datetime)
+          ) {
+            groups[data.id] = data;
+          }
+          return groups;
+        }, {});
+        refinedDatas = Object?.values(groupedDatas);
       }
-      return groups;
-    }, {});
-
-    refinedDatas = Object?.values(groupedDatas);
+      return refinedDatas;
+    } else {
+      throw new Error("Failed to fetch data");
+    }
+  } catch (error) {
+    throw error;
   }
-  // console.log("datrasss..", refinedDatas);
-  // http://localhost:3001/forecast/sinja/date
-  // console.log("data.....", data);
-  return refinedDatas;
 };
 
 export const getPredictedData = async (date) => {
@@ -89,4 +94,9 @@ export const fetchUser = async () => {
   // console.log("user", req);
   const user = await axios.get("http://192.168.101.9:3300/users");
   return user.data;
+};
+
+export const historicalDataAPI = async () => {
+  const data = await axios.get("http://localhost:3001/historical");
+  return data.data;
 };

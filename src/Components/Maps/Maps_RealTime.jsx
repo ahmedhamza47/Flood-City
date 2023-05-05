@@ -30,6 +30,10 @@ const MarkersMap = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["datas"],
     queryFn: () => fetchRealTimeData(),
+    staleTime: Infinity,
+    onError: (error) => {
+      console.log(error);
+    },
   });
   //--
   //console.log("original data", data?.data);
@@ -105,154 +109,172 @@ const MarkersMap = () => {
   return (
     <div className=" map-section-container ">
       <div className="container d-flex flex-column align-items-center ">
-    <div data-aos="fade-up">
+        <div data-aos="fade-up">
+          <h2 className="map-heading text-center pt-5 pb-3">
+            End-To-End Information Processing
+          </h2>
+          <div className="d-flex flex-column align-items-center">
+            <p className="text-center col-lg-10  par">
+              FloodWarn analyzes and processes water-related information from a
+              large amout of data, and disseminates the results of these
+              analysis through a dashboard and an API. Our systems are developed
+              in collaboration with both the academic and non-academic
+              institutions and features Gradient Boosting Algorithm. In this
+              section we present one of the most important features of the
+              software.
+              <br />
+            </p>
 
-      <h2 className="map-heading text-center pt-5 pb-3" >
-        {" "}
-        End-To-End Information Processing 
-        </h2>
-      <div className="d-flex flex-column align-items-center">
+            <div>
+              <div className="d-flex  mx-5 my-3 par">
+                <img
+                  src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png"
+                  alt=""
+                  className="marker-img mx-3 "
+                />
+                <p className="my-auto">
+                  Blue marker indicates Current Location.
+                </p>
+              </div>
+              <div className="d-flex mx-5 my-3 par">
+                <img
+                  src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png"
+                  alt=""
+                  className="marker-img mx-3 "
+                />
+                <p className="my-auto">
+                  Green marker indicates Water level below warning level.
+                </p>
+              </div>
 
-      <p className="text-center col-lg-10 " style={{fontSize:'1rem'}}>
-   
-      FloodWarn analyzes and processes water-related information from a large number of online sources, and disseminates the results of these analyses through a dashboard and an API. Our systems are developed in close collaboration with both academic and non-academic partners and feature state-of-the-art machine learning and natural language processing algorithms. In this section we present some of the most important features of the software.
-      <br />
-
-      </p>
-     
-      <div   >
-
-        <div className="d-flex  mx-5 my-3">
-          <img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png' alt="" className="marker-img mx-3"/>
-          <p className="my-auto">Blue marker indicates Current Location.</p>
-        </div>
-        <div className="d-flex mx-5 my-3">
-          <img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png' alt="" className="marker-img mx-3"/>
-          <p className="my-auto">Green marker indicates Water level below warning level.</p>
-        </div>
-
-
-        <div className=" d-flex mx-5 my-3">
-          <img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png' alt="" className="marker-img mx-3"/>
-          <p className="my-auto">Yellow marker indicates Water level above warning level.</p>
-        </div>
-        <div className=" d-flex mx-5 mt-3 mb-3">
-          <img src='https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png' alt="" className="marker-img mx-3"/>
-          <p className="my-auto">Red marker indicates Water level above danger level.</p>
-        </div>
-      </div>
-      </div>
-      </div>
-      <div className="w-100 mt-5  pt-5">
-            <div className="d-flex flex-row  align-middle justify-content-end   pl-5 ">
-            
-              <button
-                className="btn btn-primary btn-location ml-3 mr-3 pl-1  "
-                onClick={showMyLocation}
-              >
-              <FaMapMarkerAlt fill="white" className='mr-2'/>
-                Locate Me
-              </button>
+              <div className=" d-flex mx-5 my-3 par">
+                <img
+                  src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-yellow.png"
+                  alt=""
+                  className="marker-img mx-3"
+                />
+                <p className="my-auto">
+                  Yellow marker indicates Water level above warning level.
+                </p>
+              </div>
+              <div className=" d-flex mx-5 mt-3 mb-3 par">
+                <img
+                  src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png"
+                  alt=""
+                  className="marker-img mx-3"
+                />
+                <p className="my-auto">
+                  Red marker indicates Water level above danger level.
+                </p>
+              </div>
             </div>
           </div>
-      <div className="container map-container mb-5 mt-3 pb-5">
-        <div className="row  map-row">
+        </div>
+        <div className="w-100 mt-5  pt-5">
+          <div className="d-flex flex-row  align-middle justify-content-end   pl-5 ">
+            <button
+              className="btn btn-primary btn-location ml-3 mr-3 pl-1  "
+              onClick={showMyLocation}
+            >
+              <FaMapMarkerAlt fill="white" className="mr-2" />
+              Locate Me
+            </button>
+          </div>
+        </div>
+        <div className="container map-container mb-5 mt-3 pb-5">
+          <div className="row  map-row">
+            <MapContainer
+              center={center}
+              zoom={7}
+              ref={mapRef}
+              fullscreenControl={true}
+              attributionControl={false}
+            >
+              <FeatureGroup>
+                <EditControl
+                  position="bottomleft"
+                  onCreated={_created}
+                  draw={{
+                    rectangle: false,
+                    circle: false,
+                    circlemarker: false,
+                    polygon: false,
+                  }}
+                />
+              </FeatureGroup>
 
-              <MapContainer
-                center={center}
-                zoom={7}
-                ref={mapRef}
-                fullscreenControl={true}
-                attributionControl={false}
-              >
-                <FeatureGroup>
-                  <EditControl
-                    position="bottomleft"
-                    onCreated={_created}
-                    draw={{
-                      rectangle: false,
-                      circle: false,
-                      circlemarker: false,
-                      polygon: false,
-                    }}
-                  />
-                </FeatureGroup>
-
-                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                {data?.map((station, index) => {
-                  return (
-                    <div key={index}>
-                      <Marker
-                        icon={
-                          Number(station?.value) > Number(station?.danger_level)
-                            ? redMarker
-                            : Number(station?.value) >
-                              Number(station?.warning_level)
-                            ? orangeMarker
-                            : greenMarker
-                        }
-                        position={[station?.latitude, station?.longitude]}
-                        eventHandlers={{ click: handleMarkerClick }}
-                      >
-                        <Popup>
-                          {new Intl.DateTimeFormat("en-US", {
-                            timeZone: "Asia/Kathmandu",
-                            dateStyle: "medium",
-                            timeStyle: "medium",
-                          }).format(
-                            new Date(station.datetime.split("+")[0])
-                          )}{" "}
-                          <br />
-                          Water Level: {Number(station?.value).toFixed(2)}m{" "}
-                          <br />
-                          {station?.name} <br />
-                          {Number(station?.value) >
-                            Number(station?.danger_level) && (
-                            <span className="dangerLevelText">
-                              {" "}
-                              Warning: Flood Alert
-                            </span>
-                          )}
-                          {circleVisibility && (
-                            <Circle
-                              center={[station?.latitude, station?.longitude]}
-                              pathOptions={redOptions}
-                              radius={1000}
-                            />
-                          )}
-                        </Popup>
-                      </Marker>
-                    </div>
-                  );
-                })}
-
-                {location.loaded && !location.error && (
-                  <>
+              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+              {data?.map((station, index) => {
+                return (
+                  <div key={index}>
                     <Marker
-                      icon={blueMarker}
-                      position={[
-                        location.coordinates.lat,
-                        location.coordinates.lng,
-                      ]}
+                      icon={
+                        Number(station?.value) > Number(station?.danger_level)
+                          ? redMarker
+                          : Number(station?.value) >
+                            Number(station?.warning_level)
+                          ? orangeMarker
+                          : greenMarker
+                      }
+                      position={[station?.latitude, station?.longitude]}
+                      eventHandlers={{ click: handleMarkerClick }}
                     >
-                      <Popup>Current Location</Popup>
+                      <Popup>
+                        {new Intl.DateTimeFormat("en-US", {
+                          timeZone: "Asia/Kathmandu",
+                          dateStyle: "medium",
+                          timeStyle: "medium",
+                        }).format(
+                          new Date(station.datetime.split("+")[0])
+                        )}{" "}
+                        <br />
+                        Water Level: {Number(station?.value).toFixed(2)}m <br />
+                        {station?.name} <br />
+                        {Number(station?.value) >
+                          Number(station?.danger_level) && (
+                          <span className="dangerLevelText">
+                            {" "}
+                            Warning: Flood Alert
+                          </span>
+                        )}
+                        {circleVisibility && (
+                          <Circle
+                            center={[station?.latitude, station?.longitude]}
+                            pathOptions={redOptions}
+                            radius={1000}
+                          />
+                        )}
+                      </Popup>
                     </Marker>
-                  </>
-                )}
-              </MapContainer>
-            </div>
+                  </div>
+                );
+              })}
+
+              {location.loaded && !location.error && (
+                <>
+                  <Marker
+                    icon={blueMarker}
+                    position={[
+                      location.coordinates.lat,
+                      location.coordinates.lng,
+                    ]}
+                  >
+                    <Popup>Current Location</Popup>
+                  </Marker>
+                </>
+              )}
+            </MapContainer>
           </div>
         </div>
-      
       </div>
+    </div>
   );
 };
 
 export default MarkersMap;
 
-  /* <Circle
+/* <Circle
                       center={[27.752927449398864, 85.30272781848907]}
                       pathOptions={redOptions}
                       radius={200}
                     /> */
-

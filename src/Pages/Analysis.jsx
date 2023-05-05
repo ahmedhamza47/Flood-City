@@ -8,6 +8,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { format, parse } from "date-fns";
+
 import { Line } from "react-chartjs-2";
 import { MdFlood } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
@@ -15,9 +17,10 @@ import {
   predictedRiverData,
   riverData,
   cardData,
+  historicalData,
 } from "../Datas/AnalysisDatas";
 import { DataContext } from "../Components/context/context";
-import { fetchPredictedDatas } from "../Components/API/API";
+import { fetchPredictedDatas, historicalDataAPI } from "../Components/API/API";
 import { SiFlood } from "react-icons/si";
 import { RiFloodFill } from "react-icons/ri";
 ChartJS.register(
@@ -53,14 +56,43 @@ const riverNames = [
 ];
 
 export function Analysis() {
-  const { labels, months, wLevel, setWlevel, fullDate } =
+  const { labels, months, wLevel, setWLevel, fullDate } =
     useContext(DataContext);
   const [selectedRiver, setSelectedRiver] = useState("sinja");
+  const [historical, setHistorical] = useState([]);
+  // console.log(historical,'....')
+  // const data =  historicalData?.find((data) => data?.name === 'chisapani');
+  // console.log(data?.avgval,'data');
+  // const handleSelect = (riverName) => {
+  //   console.log(riverName, "riverName");
+
+  //   setSelectedRiver(riverName);
+  //   const data = historicalData?.find((data) => data?.name === riverName);
+  //   setHistorical(data);
+  //   // console.log(historical,'historical')
+  // };
+
+  useEffect(() => {
+    // setSelectedRiver("sinja");
+    // const data = historicalData?.find((data) => data?.name === selectedRiver);
+    // setHistorical(data);
+    //  console.log(historical,'historical')
+    handleHistorical("sinja");
+    handlePredict();
+  }, []);
+  // useQuery({
+  //   queryKey: ["datas"],
+  //   queryFn: () => handlePredict(),
+  // });
+  //console.log('histirical',historical)
   const historicalRiverData = (riverName) => {
-    const data = riverData[riverName];
-    if (!data) {
-      return null; // or return a default object with an error message or something
-    }
+    // console.log(historical,'historical')
+    // const data =  historicalData?.find((data) => data?.name === riverName);
+    const data = historical?.avgval;
+    // console.log(data, "data---");
+    // if (!data) {
+    //   return null; // or return a default object with an error message or something
+    // }'
     const chartData = {
       labels: months,
       datasets: [
@@ -77,17 +109,18 @@ export function Analysis() {
   };
 
   const PredictedRiverData = (riverName) => {
+    // console.log(riverName, "riverName");
     const Data = {
       labels,
       datasets: [
         {
           fill: true,
           label: `Water Level in (m) `,
-          // data:
-          //   wLevel &&
-          //   wLevel[riverName] &&
-          //   wLevel[riverName].map((station) => station?.value),
-         data: predictedRiverData[riverName],
+          data:
+            wLevel &&
+            wLevel[riverName] &&
+            wLevel[riverName].map((station) => station?.value),
+          //  data: predictedRiverData[riverName],
           borderColor: "rgb(53, 162, 235)",
           backgroundColor: "rgba(53, 162, 235, 0.5)",
         },
@@ -98,7 +131,7 @@ export function Analysis() {
   const handlePredict = async () => {
     try {
       const results = await Promise.all(
-        riverNames.map(async (riverName) => {
+        riverNames?.map(async (riverName) => {
           const riverData = await Promise.all(
             fullDate.map(async (date) => {
               const predictedData = await fetchPredictedDatas(riverName, date);
@@ -114,18 +147,46 @@ export function Analysis() {
         })
       );
       const levels = Object.assign({}, ...results);
-      setWlevel(levels);
+      setWLevel(levels);
       return levels;
     } catch (error) {
       console.error(error);
     }
   };
   // console.log(wLevel);
-  useQuery({
-    queryKey: ["datas"],
-    queryFn: () => handlePredict(),
-  });
+
+  const handleHistorical = async (riverName) => {
+    const h = await historicalDataAPI();
+    //console.log(h, "hhh");
+    const data = h?.find((data) => data?.name === riverName);
+    // console.log(data, "data");
+    setSelectedRiver(riverName);
+
+    setHistorical(data);
+  };
+
+  // useQuery({
+  //   queryKey: ["historical"],
+  //   queryFn: () => handleHistorical(),
+  // });
+
   // console.log(cardData[selectedRiver], "cardData");
+  const lastFloodDateFormat = (dateString) => {
+    if (dateString) {
+      const dateObj = parse(
+        dateString,
+        "EEEE, MMMM d, yyyy 'at' h:mm:ss a 'UTC'",
+        new Date()
+      );
+      const formattedDate = format(dateObj, "MMMM d, yyyy");
+      // console.log(formattedDate, "format");
+      return formattedDate;
+    } else {
+      return null;
+    }
+  };
+  lastFloodDateFormat("Tuesday, October 19, 2021 at 2:35:00 AM UTC");
+  // console.log(formattedDate, "format"); // Output: "October 19, 2021"
   return (
     <div className="container-fluid" style={{ backgroundColor: "#f5f5f5" }}>
       <div className=" my-5">
@@ -141,13 +202,13 @@ export function Analysis() {
               className="form-control"
               id="exampleFormControlSelect1"
               value={selectedRiver}
-              onChange={(e) => setSelectedRiver(e.target.value)}
+              onChange={(e) => handleHistorical(e.target.value)}
             >
-              <option> sinja</option>
-              <option>humla_karnali</option>
-              <option>chisapani </option>
-              <option>sanobheri</option>
-              <option>dipayal</option>
+              <option value="sinja">Sinja River</option>
+              <option value="humla_karnali">Humla Karnali River</option>
+              <option value="chisapani">Chisapani River</option>
+              <option value="sanobheri">Sanobheri River</option>
+              <option value="dipayal">Dipayal River</option>
             </select>
           </div>
         </div>
@@ -162,7 +223,7 @@ export function Analysis() {
                     className="mr-4"
                   />
                   <div className="pt-3">
-                    <h5>{cardData[selectedRiver]?.low}m</h5>
+                    <h5>{Number(historical?.lowest_value).toFixed(2)} m</h5>
                     <p>Lowest Water Level </p>
                   </div>
                 </div>
@@ -177,7 +238,7 @@ export function Analysis() {
                     className="mr-4"
                   />
                   <div className="pt-3">
-                    <h5>{cardData[selectedRiver]?.high}m</h5>
+                    <h5>{Number(historical?.highest_Value).toFixed(2)} m</h5>
                     <p> Highest Water Level</p>
                   </div>
                 </div>
@@ -193,7 +254,7 @@ export function Analysis() {
                   />
 
                   <div className="pt-3">
-                    <h5>{cardData[selectedRiver]?.floodRecorded}</h5>
+                    <h5>{lastFloodDateFormat(historical?.exceed_warning)}</h5>
                     <p> Last Flood Recorded </p>
                   </div>
                 </div>

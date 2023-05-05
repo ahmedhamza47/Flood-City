@@ -34,7 +34,7 @@ function Navbar() {
       setToggleColor(false);
     }
   };
-  console.log(uuidv4())
+  //console.log(uuidv4())
   useEffect(() => {
     getToggleColor();
   }, [currentUrl]);

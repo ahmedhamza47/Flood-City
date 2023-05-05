@@ -60,7 +60,7 @@ const FuturePrediction = () => {
               />
             </div>
             <div className="col-lg-6  observation-description">
-              <p>
+              <p className="par">
                 FloodWarn adds georeferences to the data, so it can be viewed on
                 a map. It involves precisely aligning digital data, such as
                 river station predictions, with real-world geographic locations

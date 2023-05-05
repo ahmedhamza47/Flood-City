@@ -1,13 +1,11 @@
 img {
   width: 100%;
   height: 100vh;
-  
- 
 }
 .overlay {
   height: 90vh !important;
 }
-.marker-img{
+.marker-img {
   width: min-content;
   height: min-content;
 }
@@ -19,17 +17,15 @@ img {
   padding-bottom: 0px !important;
   margin-bottom: 0px !important;
 }
+
 .leaflet-container {
-  height: 500px;  
+  height: 500px;
   width: 100%;
   border-radius: 25px;
   box-shadow: 10px 10px 10px rgb(101, 100, 100);
 }
 
-
-
 .arrow {
-
   animation: arrow-move 2s ease-in-out infinite;
 }
 
@@ -66,7 +62,6 @@ img {
   color: gray;
 }
 .sub-info {
-
   justify-content: center;
   padding-bottom: 0;
   color: brown;
@@ -80,35 +75,39 @@ img {
   margin-bottom: 0px;
 }
 .map-heading {
-  
   letter-spacing: 2px;
   text-align: center;
 }
-.realtime-heading{
+.realtime-heading {
   letter-spacing: 2px;
   color: #464646;
   text-align: center;
 }
-
+@media screen and (min-width: 1400px) {
+  .observation-description {
+    font-size: 1.2rem;
+  }
+  .par {
+    font-size: 1.2rem;
+  }
+}
 @media screen and (max-width: 992px) {
- 
   .observation-explanation img {
     width: 70%;
     height: 100%;
   }
   .observation-description {
-
     padding: 3rem 5rem !important;
     text-align: left;
     width: 100%;
   }
-  .map-container{
+  .map-container {
     padding: 0 2%;
     max-width: 100%;
   }
-  .desc-row{
+  .desc-row {
     display: flex;
     flex-direction: column;
     align-items: center;
-  } 
+  }
 }
