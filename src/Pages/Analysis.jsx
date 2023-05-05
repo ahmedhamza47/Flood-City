@@ -78,12 +78,19 @@ export function Analysis() {
     // setHistorical(data);
     //  console.log(historical,'historical')
     handleHistorical("sinja");
-    handlePredict();
+    // handlePredict();
   }, []);
-  // useQuery({
-  //   queryKey: ["datas"],
-  //   queryFn: () => handlePredict(),
-  // });
+  useQuery({
+    queryKey: ["datas"],
+    queryFn: () => handlePredict(),
+    onSuccess: (data) => {
+      console.log(data, "datassss");
+      setWLevel(data);
+    },
+    staleTime: 3000, //
+    refetchOnMount: false,
+  });
+
   //console.log('histirical',historical)
   const historicalRiverData = (riverName) => {
     // console.log(historical,'historical')
@@ -135,6 +142,7 @@ export function Analysis() {
           const riverData = await Promise.all(
             fullDate.map(async (date) => {
               const predictedData = await fetchPredictedDatas(riverName, date);
+              // console.log(predictedData, "predictedData");
               return {
                 date: date,
                 value: predictedData.value,
@@ -146,14 +154,13 @@ export function Analysis() {
           return riverObject;
         })
       );
+      // console.log(results, "resuklt");
       const levels = Object.assign({}, ...results);
-      setWLevel(levels);
       return levels;
     } catch (error) {
       console.error(error);
     }
   };
-  // console.log(wLevel);
 
   const handleHistorical = async (riverName) => {
     const h = await historicalDataAPI();
@@ -185,7 +192,7 @@ export function Analysis() {
       return null;
     }
   };
-  lastFloodDateFormat("Tuesday, October 19, 2021 at 2:35:00 AM UTC");
+  //lastFloodDateFormat("Tuesday, October 19, 2021 at 2:35:00 AM UTC");
   // console.log(formattedDate, "format"); // Output: "October 19, 2021"
   return (
     <div className="container-fluid" style={{ backgroundColor: "#f5f5f5" }}>

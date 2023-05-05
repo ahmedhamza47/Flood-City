@@ -37,13 +37,14 @@ export const DataProvider = ({ children }) => {
     //------------12 months for historical data -----------
     const monthsArr = [];
     for (let i = 0; i < 12; i++) {
-      const month = new Date(today.getFullYear(), today.getMonth() - i, 1); // calculate the month
+      const month = new Date(today.getFullYear(), i, 1); // calculate the month
       const monthName = month.toLocaleString("default", { month: "short" }); // get the abbreviated month name
-      monthsArr.unshift(monthName); // add the month name to the array
+      monthsArr.push(monthName); // add the month name to the array
     }
 
     setMonths(monthsArr);
   }, []);
+  console.log(months, "monthsArr");
   // console.log( labels,'mmdd');
   // console.log(fullDate,'fullDate');
 
