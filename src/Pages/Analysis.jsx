@@ -78,18 +78,7 @@ export function Analysis() {
     // setHistorical(data);
     //  console.log(historical,'historical')
     handleHistorical("sinja");
-    // handlePredict();
   }, []);
-  useQuery({
-    queryKey: ["datas"],
-    queryFn: () => handlePredict(),
-    onSuccess: (data) => {
-      console.log(data, "datassss");
-      setWLevel(data);
-    },
-    staleTime: 3000, //
-    refetchOnMount: false,
-  });
 
   //console.log('histirical',historical)
   const historicalRiverData = (riverName) => {
@@ -135,12 +124,37 @@ export function Analysis() {
     };
     return Data;
   };
+  const { data, isLoading } = useQuery({
+    queryKey: ["datas"],
+    queryFn: () => handlePredict(),
+    onSuccess: (data) => {
+      console.log(data, "datassss");
+      setWLevel(data);
+    },
+    staleTime: 3000, //
+    // refetchOnMount: false,
+  });
+
+  // console.log(data, "data");
+  console.log(fullDate, "fullDate");
+  const date = [
+    "20230512",
+    "20230513",
+    "20230514",
+    "20230515",
+    "20230516",
+    "20230517",
+    "20230518",
+    "20230519",
+  ];
+  const dates = ["20230512", "20230513"];
+  console.log(fullDate, "fullDate");
   const handlePredict = async () => {
     try {
       const results = await Promise.all(
         riverNames?.map(async (riverName) => {
           const riverData = await Promise.all(
-            fullDate.map(async (date) => {
+            date?.map(async (date) => {
               const predictedData = await fetchPredictedDatas(riverName, date);
               // console.log(predictedData, "predictedData");
               return {

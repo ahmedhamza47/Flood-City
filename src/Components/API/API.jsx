@@ -1,4 +1,3 @@
-import { faker } from "@faker-js/faker";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -65,7 +64,7 @@ export const getPredictedData = async (date) => {
 export const fetchPredictedDatas = async (riverName, Date) => {
   // console.log("....", fullDate);
   const data = await axios.get(
-    `http://192.168.101.9:8000/forecast/${riverName}/${Date}`
+    `http://192.168.101.7:8000/forecast/${riverName}/${Date}`
   );
   //console.log("datasss", data);
   return data.data;
@@ -84,10 +83,10 @@ export const fetchPredictedDatas = async (riverName, Date) => {
 //   return data;
 // };
 
-export const postUser = async (req) => {
+export const postUser = async (userInfo) => {
   // console.log("first");
   // console.log("usersssssssss", req);
-  const user = await axios.post("http://192.168.101.9:3300/users", req);
+  const user = await axios.post("http://192.168.101.9:3300/users", userInfo);
   return user;
 };
 export const fetchUser = async () => {
