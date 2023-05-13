@@ -13,12 +13,12 @@ import { format, parse } from "date-fns";
 import { Line } from "react-chartjs-2";
 import { MdFlood } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
-import {
-  predictedRiverData,
-  riverData,
-  cardData,
-  historicalData,
-} from "../Datas/AnalysisDatas";
+// import {
+//   predictedRiverData,
+//   riverData,
+//   cardData,
+//   historicalData,
+// } from "../Datas/AnalysisDatas";
 import { DataContext } from "../Components/context/context";
 import { fetchPredictedDatas, historicalDataAPI } from "../Components/API/API";
 import { SiFlood } from "react-icons/si";
@@ -124,21 +124,19 @@ export function Analysis() {
     };
     return Data;
   };
-  const { data, isLoading } = useQuery({
+  useQuery({
     queryKey: ["datas"],
     queryFn: () => handlePredict(),
     onSuccess: (data) => {
-      console.log(data, "datassss");
       setWLevel(data);
     },
-    staleTime: 3000, //
+    staleTime: Infinity, //
     // refetchOnMount: false,
   });
 
   // console.log(data, "data");
-  console.log(fullDate, "fullDate");
+  // console.log(fullDate, "fullDate");
   const date = [
-    "20230512",
     "20230513",
     "20230514",
     "20230515",
@@ -146,9 +144,8 @@ export function Analysis() {
     "20230517",
     "20230518",
     "20230519",
+    "20230520",
   ];
-  const dates = ["20230512", "20230513"];
-  console.log(fullDate, "fullDate");
   const handlePredict = async () => {
     try {
       const results = await Promise.all(

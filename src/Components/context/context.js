@@ -1,5 +1,4 @@
 import { useState, createContext, useRef, useEffect } from "react";
-import ReactDOM from "react-dom/client";
 
 export const DataContext = createContext();
 
@@ -44,7 +43,7 @@ export const DataProvider = ({ children }) => {
 
     setMonths(monthsArr);
   }, []);
-  console.log(months, "monthsArr");
+  // console.log(months, "monthsArr");
   // console.log( labels,'mmdd');
   // console.log(fullDate,'fullDate');
 

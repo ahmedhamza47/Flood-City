@@ -15,7 +15,7 @@ function Navbar() {
   const [toggleColor, setToggleColor] = useState(false);
   const location = useLocation();
   const currentUrl = location.pathname;
- //console.log(uuidv4())
+  //console.log(uuidv4())
   // const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: (req) => postUser(req),
@@ -134,7 +134,7 @@ function Navbar() {
               </Link>
               <Link to={"/analysis/"} className="links">
                 <li className="nav-item  ">
-                  <div className="nav-link inactive" >
+                  <div className="nav-link inactive">
                     Analysis<span className="sr-only">(current)</span>
                   </div>
                 </li>

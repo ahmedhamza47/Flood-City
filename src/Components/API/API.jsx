@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 
 export const fetchRealTimeData = async () => {
   try {
@@ -64,7 +63,7 @@ export const getPredictedData = async (date) => {
 export const fetchPredictedDatas = async (riverName, Date) => {
   // console.log("....", fullDate);
   const data = await axios.get(
-    `http://192.168.101.7:8000/forecast/${riverName}/${Date}`
+    `http://192.168.101.9:8000/forecast/${riverName}/${Date}`
   );
   //console.log("datasss", data);
   return data.data;
