@@ -252,6 +252,8 @@ const PredictedMap = () => {
                                   Water Level:
                                   {Number(station?.value).toFixed(2)}m
                                   <br />
+                                  {station?.Training_MSE} <br />
+                                  {station?.obserror} <br />
                                   {Number(station?.value) >
                                   Number(station?.danger_level) ? (
                                     <p style={{ margin: 0 }}>

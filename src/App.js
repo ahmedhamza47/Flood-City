@@ -9,6 +9,7 @@ import FuturePrediction from "./Pages/FuturePrediction";
 import { Analysis } from "./Pages/Analysis";
 import { useRef } from "react";
 import { ToastContainer } from "react-toastify";
+import AdminPage from "./Pages/Admin/AdminPage";
 function App() {
   const footerRef = useRef(null);
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/watch/" element={<RiverWatch />} />
           <Route path="/prediction/" element={<FuturePrediction />} />
           <Route path="/analysis/" element={<Analysis />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </BrowserRouter>
       <Footer footerRef={footerRef} />
