@@ -9,23 +9,22 @@ import FuturePrediction from "./Pages/FuturePrediction";
 import { Analysis } from "./Pages/Analysis";
 import { useRef } from "react";
 import { ToastContainer } from "react-toastify";
-import AdminPage from "./Pages/Admin/AdminPage";
+import Admin from "./Pages/Admin/AdminPage";
+import ClientPage from "./ClientPage";
+import MainDash from "./Pages/Admin/MainDash/MainDash";
+import Accuracy from "./Pages/Admin/Accuracy/Accuracy";
 function App() {
-  const footerRef = useRef(null);
-
   return (
     <>
       <BrowserRouter>
-        <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/watch/" element={<RiverWatch />} />
-          <Route path="/prediction/" element={<FuturePrediction />} />
-          <Route path="/analysis/" element={<Analysis />} />
-          <Route path="/admin" element={<AdminPage />} />
+          <Route path="*" element={<ClientPage />} />
+          <Route path="/admin" element={<Admin />}>
+            <Route path="/admin/" element={<MainDash />} />
+            <Route path="/admin/accuracy" element={<Accuracy />} />
+          </Route>
         </Routes>
       </BrowserRouter>
-      <Footer footerRef={footerRef} />
       <ToastContainer />
     </>
   );

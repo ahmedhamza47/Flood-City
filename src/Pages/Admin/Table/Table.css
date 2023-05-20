@@ -8,7 +8,7 @@
   font-weight: bold !important;
 }
 .Table {
-  border-radius: 50px !important;
+  padding: 1.5rem;
 }
 .Table td,
 th {
@@ -31,8 +31,8 @@ th {
 
 @media screen and (max-width: 1200px) {
   .Table {
-    width: 170%;
-    margin-top: 2rem;
+    width: min-content;
+    margin-top: 8.5rem;
   }
 }
 

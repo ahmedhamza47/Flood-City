@@ -2,17 +2,22 @@
   /* padding-top: 1rem; */
   display: flex;
   flex-direction: column;
-  margin-top: 8.5rem;
-  margin-left: 4rem;
+
+  width: 100%;
 }
 .MainDash h1 {
-  justify-content: space-evenly;
+  font-size: 24px;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #2f3564;
 }
 
 @media screen and (max-width: 1200px) {
   .MainDash {
     justify-content: flex-start;
-    margin-top: 2rem;
+
+    width: min-content;
   }
 }
 
@@ -20,4 +25,20 @@
   .MainDash {
     align-items: center;
   }
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }

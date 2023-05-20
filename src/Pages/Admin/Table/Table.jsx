@@ -52,12 +52,10 @@ const makeStyle = (status) => {
 export default function BasicTable() {
   return (
     <div className="Table">
-      <h3>User Details</h3>
       <TableContainer
         component={Paper}
         style={{
           boxShadow: "0px 13px 20px 0px #80808029",
-          borderRadius: "20px",
         }}
       >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
