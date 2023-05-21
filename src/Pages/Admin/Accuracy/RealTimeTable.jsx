@@ -1,8 +1,11 @@
-import { deleteUser, fetchUser, updateUser } from "../../../Components/API/API";
+import {
+  deleteRealTimeData,
+  fetchAdminRealTimeData,
+} from "../../../Components/API/API";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useContext } from "react";
 import { DataContext } from "../../../Components/context/context";
-import "./Table.css";
+
 import { toast } from "react-toastify";
 // function createData(userName, email, lat, lng, phone) {
 //   return { userName, email, lat, lng, phone };
@@ -45,29 +48,37 @@ import { toast } from "react-toastify";
 //   }
 // };
 
-export default function BasicTable() {
-  const { users, setUsers, setFormValues, setEditUser } =
-    useContext(DataContext);
+export default function RealTimeTable() {
+  const {
+    selectedRiver,
+    setSelectedRiver,
+    realTimeData,
+    setRealTimeData,
+    setEditRealTimeData,
+    setRealTimeForm,
+  } = useContext(DataContext);
   const queryClient = useQueryClient();
-  const { data, isLoading } = useQuery({
-    queryKey: ["users"],
-    queryFn: fetchUser,
-    staleTime: Infinity,
+  console.log(selectedRiver, "selectedRiverRealTime");
+  useQuery({
+    queryKey: ["realTime", selectedRiver],
+    queryFn: () => fetchAdminRealTimeData(selectedRiver),
     onSuccess: (data) => {
-      data && setUsers(data);
-      // queryClient.invalidateQueries();
+      data && setRealTimeData(data || []);
+      console.log(realTimeData, "realTimeData");
+      //   queryClient.invalidateQueries();
     },
   });
-
+  //   console.log(realTimeData, "realTimeData");
   const handleEdit = (row) => {
-    setFormValues(row);
-    setEditUser(true);
+    setRealTimeForm(row);
+    setEditRealTimeData(true);
   };
   const handleDelete = (row) => {
-    mutate(row.id);
+    console.log(row.id, "row.id");
+    mutate(row);
   };
   const { mutate } = useMutation({
-    mutationFn: (req) => deleteUser(req),
+    mutationFn: deleteRealTimeData,
     onSuccess: () => {
       console.log("success");
       queryClient.invalidateQueries();
@@ -77,67 +88,35 @@ export default function BasicTable() {
     },
   });
   return (
-    // <div className="Table">
-    //   {/* <TableContainer
-    //     component={Paper}
-    //     style={{
-    //       boxShadow: "0px 13px 20px 0px #80808029",
-    //     }}
-    //   >
-    //     <Table sx={{ minWidth: 650 }} aria-label="simple table">
-    //       <TableHead>
-    //         <TableRow>
-    //           <TableCell>User Name</TableCell>
-    //           <TableCell align="left">Email</TableCell>
-    //           <TableCell align="left">Latitude</TableCell>
-    //           <TableCell align="left"> Longitude</TableCell>
-    //           <TableCell align="left">Phone Number </TableCell>
-    //         </TableRow>
-    //       </TableHead>
-    //       <TableBody style={{ color: "white" }}>
-    //         {rows.map((row) => (
-    //           <TableRow
-    //             key={row.userName}
-    //             sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-    //           >
-    //             <TableCell component="th" scope="row">
-    //               {row.userName}
-    //             </TableCell>
-    //             <TableCell align="left">{row.email}</TableCell>
-    //             <TableCell align="left">{row.lat}</TableCell>
-    //             <TableCell align="left">{row.lng}</TableCell>
-    //             <TableCell align="left" className="Details">
-    //               {row.phone}
-    //             </TableCell>
-    //           </TableRow>
-    //         ))}
-    //       </TableBody>
-    //     </Table>
-    //   </TableContainer> */}
-    // </div>
     <div className="tables">
       <table className="table table-dark">
         <thead>
           <tr>
             <th scope="col"> ID</th>
-            <th scope="col">UserName</th>
-            <th scope="col">Email</th>
+            <th scope="col">Date</th>
+            <th scope="col">Name</th>
+            <th scope="col">Basin</th>
             <th scope="col">Latitude</th>
             <th scope="col">Longitude</th>
-            <th scope="col">Phone Number</th>
-            <th scope="col">Actions</th>
+            <th scope="col">Warning Level</th>
+            <th scope="col">Danger Level</th>
+            <th scope="col">Water Level</th>
+            <th scope="col"> Actions</th>
           </tr>
         </thead>
         <tbody>
-          {users && users.length > 0 ? (
-            users?.map((row) => (
+          {realTimeData && realTimeData.length > 0 ? (
+            realTimeData?.map((row) => (
               <tr key={row.id}>
                 <td>{row.id}</td>
+                <td>{row.datetime}</td>
                 <td>{row.name}</td>
-                <td>{row.email}</td>
+                <td>{row.basin}</td>
                 <td>{row.latitude}</td>
-                <td>{row.longitude}</td>
-                <td>{row.phone_no}</td>
+                <td> {row.longitude}</td>
+                <td>{row.warning_level}</td>
+                <td>{row.danger_level}</td>
+                <td>{row.value}</td>
                 <td>
                   <button
                     className="btn btn-primary"

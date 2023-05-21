@@ -1,19 +1,147 @@
 {
   "User": [
     {
+      "id": "2ef36ef8-e690-40c2-b840-521ac551c60f",
       "name": "Hamza Ahmed",
       "email": "muhammadhamza12342@gmail.com",
-      "id": 1
+      "number": 9811111111,
+      "longitude": 2222,
+      "latitude": 2222
+    }
+  ],
+  "RealTime": [
+    {
+      "168": [
+        {
+          "id": 168,
+          "latitude": 29.203031,
+          "longitude": 81.90983,
+          "basin": "karnali",
+          "danger_level": 5,
+          "warning_level": 4.5,
+          "value": 2.2,
+          "datetime": "2023-02-05T03:55:00+00:00",
+          "name": "Sinja Khola at Diware"
+        },
+        {
+          "id": 168,
+          "latitude": 29.203031,
+          "longitude": 81.90983,
+          "basin": "karnali",
+          "danger_level": 5,
+          "warning_level": 4.5,
+          "value": 9.2,
+          "datetime": "2023-02-05T03:55:00+00:00",
+          "name": "Sinja Khola at Diware"
+        }
+      ]
     },
     {
-      "name": "Hamza Ahmed",
-      "email": "muhammadhamza12342@gmail.com",
-      "id": 2
+      "162": [
+        {
+          "id": 162,
+          "latitude": 28.65638889,
+          "longitude": 82.34694444,
+          "basin": "karnali",
+          "danger_level": 7,
+          "warning_level": 6,
+          "value": 4.5,
+          "datetime": "2023-02-05T03:55:00+00:00",
+          "name": "Sano Bheri at Simlighat"
+        },
+        {
+          "id": 162,
+          "latitude": 28.65638889,
+          "longitude": 82.34694444,
+          "basin": "karnali",
+          "danger_level": 7,
+          "warning_level": 6,
+          "value": 4.5,
+          "datetime": "2023-02-05T03:55:00+00:00",
+          "name": "Sano Bheri at Simlighat"
+        }
+      ]
     },
+
     {
-      "name": "Hamza Ahmed",
-      "email": "muhammadhamza12342@gmail.com",
-      "id": 3
+      "166": [
+        {
+          "id": 166,
+          "latitude": 29.151,
+          "longitude": 81.5817,
+          "basin": "karnali",
+          "danger_level": 8.3,
+          "warning_level": 7.5,
+          "value": 6.6,
+          "datetime": "2023-02-05T03:55:00+00:00",
+          "name": "Humla Karnali at Lalighat"
+        },
+        {
+          "id": 166,
+          "latitude": 29.151,
+          "longitude": 81.5817,
+          "basin": "karnali",
+          "danger_level": 8.3,
+          "warning_level": 7.5,
+          "value": 6.6,
+          "datetime": "2023-02-05T03:55:00+00:00",
+          "name": "Humla Karnali at Lalighat"
+        }
+      ]
+    },
+
+    {
+      "258": [
+        {
+          "id": 258,
+          "latitude": 28.64118,
+          "longitude": 81.28334,
+          "basin": "karnali",
+          "danger_level": 10.5,
+          "warning_level": 9.8,
+          "value": 8.5,
+          "datetime": "2023-02-05T03:55:00+00:00",
+          "name": "Karnali at chisapani"
+        },
+        {
+          "id": 258,
+          "latitude": 28.64118,
+          "longitude": 81.28334,
+          "basin": "karnali",
+          "danger_level": 10.5,
+          "warning_level": 9.8,
+          "value": 8.5,
+          "datetime": "2023-02-05T03:55:00+00:00",
+          "name": "Karnali at chisapani"
+        }
+      ]
+    },
+
+    {
+      "40": [
+        {
+          "id": 40,
+          "latitude": 29.246477,
+          "longitude": 80.925143,
+          "basin": "karnali",
+          "danger_level": 9,
+          "warning_level": 8.6,
+          "value": 7.5,
+          "datetime": "2023-02-05T03:55:00+00:00",
+          "name": "West Seti at  Dipayal"
+        },
+        {
+          "id": 40,
+          "latitude": 29.246477,
+          "longitude": 80.925143,
+          "basin": "karnali",
+          "danger_level": 9,
+          "warning_level": 8.6,
+          "value": 7.5,
+          "datetime": "2023-02-05T03:55:00+00:00",
+          "name": "West Seti at  Dipayal"
+        }
+      ]
     }
   ]
 }

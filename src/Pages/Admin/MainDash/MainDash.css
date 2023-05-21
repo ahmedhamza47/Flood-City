@@ -2,7 +2,7 @@
   /* padding-top: 1rem; */
   display: flex;
   flex-direction: column;
-
+  overflow-y: scroll;
   width: 100%;
 }
 .MainDash h1 {
@@ -29,6 +29,10 @@
 
 .form-group {
   margin-bottom: 1rem;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 label {
@@ -36,9 +40,20 @@ label {
   font-weight: bold;
 }
 
-input[type="text"] {
-  width: 100%;
-  padding: 0.5rem;
+input {
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 20rem;
+  height: 2.2rem;
+}
+/* .phone-input {
+  transform: translateX(-100px);
+} */
+.submit-btn {
+  padding: 5px 20px;
+  transform: translateX(-50px);
+  font-size: 1.5rem;
+}
+.error {
+  color: red;
 }

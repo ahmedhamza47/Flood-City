@@ -12,7 +12,8 @@ import { ToastContainer } from "react-toastify";
 import Admin from "./Pages/Admin/AdminPage";
 import ClientPage from "./ClientPage";
 import MainDash from "./Pages/Admin/MainDash/MainDash";
-import Accuracy from "./Pages/Admin/Accuracy/Accuracy";
+import AdminRealTime from "./Pages/Admin/Accuracy/AdminRealTimeForm";
+import Index from "./Pages/Admin/Accuracy/Index";
 function App() {
   return (
     <>
@@ -21,7 +22,7 @@ function App() {
           <Route path="*" element={<ClientPage />} />
           <Route path="/admin" element={<Admin />}>
             <Route path="/admin/" element={<MainDash />} />
-            <Route path="/admin/accuracy" element={<Accuracy />} />
+            <Route path="/admin/realtime" element={<Index />} />
           </Route>
         </Routes>
       </BrowserRouter>

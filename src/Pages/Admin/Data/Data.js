@@ -18,7 +18,7 @@ export const SidebarData = [
   {
     icon: UilClipboardAlt,
     heading: "Accuracy",
-    link: "/accuracy",
+    link: "/realtime",
   },
   {
     icon: UilUsersAlt,

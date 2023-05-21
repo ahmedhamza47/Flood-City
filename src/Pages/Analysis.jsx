@@ -133,7 +133,7 @@ export function Analysis() {
     staleTime: Infinity, //
     // refetchOnMount: false,
   });
-
+  console.log(selectedRiver, "selectedRiver");
   // console.log(data, "data");
   // console.log(fullDate, "fullDate");
   const date = [

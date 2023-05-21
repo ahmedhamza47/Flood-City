@@ -1,5 +1,4 @@
 import { Outlet, Route, Routes } from "react-router-dom";
-import Accuracy from "./Accuracy/Accuracy";
 import "./AdminPage.css";
 import MainDash from "./MainDash/MainDash";
 import Sidebar from "./SideBar/SideBar";

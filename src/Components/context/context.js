@@ -1,6 +1,25 @@
 import { useState, createContext, useRef, useEffect } from "react";
 
 export const DataContext = createContext();
+export const initialValues = {
+  name: "",
+  email: "",
+  phone_no: "",
+  longitude: "",
+  latitude: "",
+};
+
+export const realTimeInitialValues = {
+  id: "",
+  name: "",
+  latitude: "",
+  longitude: "",
+  value: "",
+  datetime: "",
+  warning_level: "",
+  danger_level: "",
+  basin: "",
+};
 
 function formatDate(date) {
   const year = date.getFullYear();
@@ -9,6 +28,17 @@ function formatDate(date) {
   return `${year}${month}${day}`;
 }
 export const DataProvider = ({ children }) => {
+  // user admin panel
+  const [formValues, setFormValues] = useState(initialValues);
+  const [users, setUsers] = useState([]);
+  const [editUser, setEditUser] = useState(false);
+
+  // real time admin Panel
+  const [selectedRiver, setSelectedRiver] = useState("sinja");
+
+  const [realTimeForm, setRealTimeForm] = useState(realTimeInitialValues);
+  const [realTimeData, setRealTimeData] = useState([]);
+  const [editRealTimeData, setEditRealTimeData] = useState(false);
   const [labels, setLabels] = useState([]);
   const [fullDate, setFullDate] = useState([]);
   const [wLevel, setWLevel] = useState([]);
@@ -60,6 +90,20 @@ export const DataProvider = ({ children }) => {
     months,
     handleArrowClick,
     handleRef,
+    formValues,
+    setFormValues,
+    users,
+    setUsers,
+    editUser,
+    setEditUser,
+    realTimeData,
+    setRealTimeData,
+    realTimeForm,
+    setRealTimeForm,
+    selectedRiver,
+    setSelectedRiver,
+    editRealTimeData,
+    setEditRealTimeData,
   };
 
   return <DataContext.Provider value={values}>{children}</DataContext.Provider>;

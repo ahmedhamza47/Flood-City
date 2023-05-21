@@ -1,0 +1,10 @@
+.main {
+  margin-top: 8rem;
+}
+.realTime {
+  overflow-y: scroll;
+  width: 100%;
+}
+.input-readonly {
+  opacity: 0.7;
+}
