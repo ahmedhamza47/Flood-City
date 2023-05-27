@@ -27,22 +27,19 @@ const Sidebar = () => {
       <button
         className="bars"
         style={expanded ? { left: "0%" } : { left: "0%" }}
-        onClick={() => setExpaned(!expanded)}
+        onClick={() => setExpaned(true)}
       >
         <GiHamburgerMenu className="hamburger" />
       </button>
       <motion.div
         className="sidebar"
         variants={sidebarVariants}
-        animate={window.innerWidth <= 768 ? `${expanded}` : ""}
+        animate={window.innerWidth <= 768 ? `${expanded}` : ``}
       >
         {/* logo */}
         <div className="logos d-flex " style={{ alignItems: "inherit" }}>
           <span className="lobster">Flood Warn.</span>
-          <span
-            className="close ml-3 mr-1"
-            onClick={() => setExpaned(!expanded)}
-          >
+          <span className="close ml-3 mr-1" onClick={() => setExpaned(false)}>
             {" "}
             <IoMdCloseCircle className="lobster" />{" "}
           </span>

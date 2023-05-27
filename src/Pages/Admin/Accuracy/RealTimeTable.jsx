@@ -3,90 +3,46 @@ import {
   fetchAdminRealTimeData,
 } from "../../../Components/API/API";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { DataContext } from "../../../Components/context/context";
 
 import { toast } from "react-toastify";
-// function createData(userName, email, lat, lng, phone) {
-//   return { userName, email, lat, lng, phone };
-// }
-
-// const rows = [
-//   createData(
-//     " pukar47",
-//     "pukar@gmail.com",
-//     "87.455557",
-//     "87.333311",
-//     "9841719564"
-//   ),
-//   createData("ahmed", "hamza@gmai.com", "87.455557", "87.333311", "9823719571"),
-//   createData(
-//     "dikkim34",
-//     "dikkim@gmail.com",
-//     "87.455557",
-//     "87.333311",
-//     "9849719511"
-//   ),
-// ];
-
-// const makeStyle = (status) => {
-//   if (status === "Approved") {
-//     return {
-//       background: "rgb(145 254 159 / 47%)",
-//       color: "green",
-//     };
-//   } else if (status === "Pending") {
-//     return {
-//       background: "#ffadad8f",
-//       color: "red",
-//     };
-//   } else {
-//     return {
-//       background: "#59bfff",
-//       color: "white",
-//     };
-//   }
-// };
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 export default function RealTimeTable() {
-  const {
-    selectedRiver,
-    setSelectedRiver,
-    realTimeData,
-    setRealTimeData,
-    setEditRealTimeData,
-    setRealTimeForm,
-  } = useContext(DataContext);
+  const { selectedRiver, realTimeData, setEditRealTimeData, setRealTimeForm } =
+    useContext(DataContext);
   const queryClient = useQueryClient();
   console.log(selectedRiver, "selectedRiverRealTime");
-  useQuery({
+  const { data: riverData } = useQuery({
     queryKey: ["realTime", selectedRiver],
     queryFn: () => fetchAdminRealTimeData(selectedRiver),
-    onSuccess: (data) => {
-      data && setRealTimeData(data || []);
-      console.log(realTimeData, "realTimeData");
-      //   queryClient.invalidateQueries();
-    },
+    onSuccess: (data) => {},
+    staleTime: Infinity,
+    cacheTime: 0,
   });
-  //   console.log(realTimeData, "realTimeData");
+
+  console.log(realTimeData, "realTimeData");
   const handleEdit = (row) => {
     setRealTimeForm(row);
     setEditRealTimeData(true);
   };
   const handleDelete = (row) => {
-    console.log(row.id, "row.id");
+    // console.log(row.id, "row.id");
     mutate(row);
   };
   const { mutate } = useMutation({
     mutationFn: deleteRealTimeData,
     onSuccess: () => {
-      console.log("success");
+      //  console.log("success");
       queryClient.invalidateQueries();
-      toast.error(" User Deleted", {
+      toast.error(" Data Deleted", {
         position: toast.POSITION.TOP_RIGHT,
       });
     },
   });
+
+  console.log({ riverData });
   return (
     <div className="tables">
       <table className="table table-dark">
@@ -105,8 +61,8 @@ export default function RealTimeTable() {
           </tr>
         </thead>
         <tbody>
-          {realTimeData && realTimeData.length > 0 ? (
-            realTimeData?.map((row) => (
+          {riverData && riverData.length > 0 ? (
+            riverData?.map((row) => (
               <tr key={row.id}>
                 <td>{row.id}</td>
                 <td>{row.datetime}</td>
@@ -117,19 +73,16 @@ export default function RealTimeTable() {
                 <td>{row.warning_level}</td>
                 <td>{row.danger_level}</td>
                 <td>{row.value}</td>
-                <td>
-                  <button
-                    className="btn btn-primary"
+                <td className="d-flex">
+                  <FaEdit
+                    className="edit-icon"
                     onClick={() => handleEdit(row)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-danger ml-3"
+                  />
+
+                  <FaTrashAlt
+                    className="delete-icon"
                     onClick={() => handleDelete(row)}
-                  >
-                    Delete
-                  </button>
+                  />
                 </td>
               </tr>
             ))

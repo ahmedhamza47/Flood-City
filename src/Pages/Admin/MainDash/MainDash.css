@@ -19,11 +19,24 @@
 
     width: min-content;
   }
+  .form-group {
+    text-align: center;
+  }
+  .submit-btn {
+    transform: translateX(0px) !important;
+  }
 }
 
 @media screen and (max-width: 768px) {
   .MainDash {
     align-items: center;
+  }
+  h1 {
+    text-align: center;
+  }
+
+  .form-group {
+    text-align: center;
   }
 }
 
@@ -40,12 +53,16 @@ label {
   font-weight: bold;
 }
 
-input {
+.form-group input {
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 20rem;
-  height: 2.2rem;
+  width: 15rem !important;
+  height: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
 }
+
 /* .phone-input {
   transform: translateX(-100px);
 } */

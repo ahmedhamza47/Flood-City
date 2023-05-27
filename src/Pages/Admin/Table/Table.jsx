@@ -2,6 +2,8 @@ import { deleteUser, fetchUser, updateUser } from "../../../Components/API/API";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, useContext } from "react";
 import { DataContext } from "../../../Components/context/context";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
+
 import "./Table.css";
 import { toast } from "react-toastify";
 // function createData(userName, email, lat, lng, phone) {
@@ -49,7 +51,7 @@ export default function BasicTable() {
   const { users, setUsers, setFormValues, setEditUser } =
     useContext(DataContext);
   const queryClient = useQueryClient();
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ["users"],
     queryFn: fetchUser,
     staleTime: Infinity,
@@ -77,50 +79,12 @@ export default function BasicTable() {
     },
   });
   return (
-    // <div className="Table">
-    //   {/* <TableContainer
-    //     component={Paper}
-    //     style={{
-    //       boxShadow: "0px 13px 20px 0px #80808029",
-    //     }}
-    //   >
-    //     <Table sx={{ minWidth: 650 }} aria-label="simple table">
-    //       <TableHead>
-    //         <TableRow>
-    //           <TableCell>User Name</TableCell>
-    //           <TableCell align="left">Email</TableCell>
-    //           <TableCell align="left">Latitude</TableCell>
-    //           <TableCell align="left"> Longitude</TableCell>
-    //           <TableCell align="left">Phone Number </TableCell>
-    //         </TableRow>
-    //       </TableHead>
-    //       <TableBody style={{ color: "white" }}>
-    //         {rows.map((row) => (
-    //           <TableRow
-    //             key={row.userName}
-    //             sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-    //           >
-    //             <TableCell component="th" scope="row">
-    //               {row.userName}
-    //             </TableCell>
-    //             <TableCell align="left">{row.email}</TableCell>
-    //             <TableCell align="left">{row.lat}</TableCell>
-    //             <TableCell align="left">{row.lng}</TableCell>
-    //             <TableCell align="left" className="Details">
-    //               {row.phone}
-    //             </TableCell>
-    //           </TableRow>
-    //         ))}
-    //       </TableBody>
-    //     </Table>
-    //   </TableContainer> */}
-    // </div>
     <div className="tables">
       <table className="table table-dark">
         <thead>
           <tr>
             <th scope="col"> ID</th>
-            <th scope="col">UserName</th>
+            <th scope="col">Username</th>
             <th scope="col">Email</th>
             <th scope="col">Latitude</th>
             <th scope="col">Longitude</th>
@@ -138,19 +102,13 @@ export default function BasicTable() {
                 <td>{row.latitude}</td>
                 <td>{row.longitude}</td>
                 <td>{row.phone_no}</td>
-                <td>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => handleEdit(row)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-danger ml-3"
+                <td className="d-flex">
+                  <FaEdit className="edit-icon" />
+
+                  <FaTrashAlt
+                    className="delete-icon"
                     onClick={() => handleDelete(row)}
-                  >
-                    Delete
-                  </button>
+                  />
                 </td>
               </tr>
             ))

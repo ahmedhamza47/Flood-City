@@ -7,4 +7,20 @@ table {
 }
 .table-dark {
   width: 90%;
+  font-size: 0.8rem;
+}
+.edit-icon,
+.delete-icon {
+  margin-right: 10px;
+  font-size: 1rem;
+}
+.edit-icon:hover,
+.delete-icon:hover {
+  cursor: pointer;
+}
+.edit-icon {
+  color: #007bff;
+}
+.delete-icon {
+  color: #dc3545;
 }

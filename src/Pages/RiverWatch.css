@@ -17,7 +17,16 @@ img {
   padding-bottom: 0px !important;
   margin-bottom: 0px !important;
 }
-
+.popover {
+  max-width: 10cm !important;
+}
+#PopoverFocus {
+  background: transparent;
+  border: none;
+}
+.i-icon {
+  color: gray;
+}
 .leaflet-container {
   height: 500px;
   width: 100%;

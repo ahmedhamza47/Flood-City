@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchRealTimeData = async () => {
   try {
-    const data = await axios.get("http://192.168.101.9:3300/realtime");
+    const data = await axios.get("http://192.168.40.128:3300/realtime");
     console.log(data, "data");
     if (data) {
       const refinedData = data?.data?.filter((item) => {
@@ -38,7 +38,7 @@ export const fetchRealTimeData = async () => {
 export const fetchAdminRealTimeData = async (riverName) => {
   try {
     const data = await axios.get(
-      `http://192.168.101.9:3300/history/${riverName}`
+      `http://192.168.40.128:3300/history/${riverName}`
     );
     return data.data;
   } catch (error) {
@@ -47,19 +47,19 @@ export const fetchAdminRealTimeData = async (riverName) => {
 };
 export const getPredictedData = async (date) => {
   const sinjaData = await axios.get(
-    `http://192.168.101.9:8000/forecast/sinja/${date}`
+    `http://192.168.40.128:8000/forecast/sinja/${date}`
   );
   const humlaKarnaliData = await axios.get(
-    `http://192.168.101.9:8000/forecast/humla_karnali/${date}`
+    `http://192.168.40.128:8000/forecast/humla_karnali/${date}`
   );
   const chisapaniData = await axios.get(
-    `http://192.168.101.9:8000/forecast/chisapani/${date}`
+    `http://192.168.40.128:8000/forecast/chisapani/${date}`
   );
   const sanoBheriData = await axios.get(
-    `http://192.168.101.9:8000/forecast/sanobheri/${date}`
+    `http://192.168.40.128:8000/forecast/sanobheri/${date}`
   );
   const dipayalData = await axios.get(
-    `http://192.168.101.9:8000/forecast/dipayal/${date}`
+    `http://192.168.40.128:8000/forecast/dipayal/${date}`
   );
   const datas = [
     sinjaData?.data,
@@ -73,7 +73,7 @@ export const getPredictedData = async (date) => {
 export const fetchPredictedDatas = async (riverName, Date) => {
   // console.log("....", fullDate);
   const data = await axios.get(
-    `http://192.168.101.9:8000/forecast/${riverName}/${Date}`
+    `http://192.168.40.128:8000/forecast/${riverName}/${Date}`
   );
   //console.log("datasss", data);
   return data.data;
@@ -93,41 +93,41 @@ export const fetchPredictedDatas = async (riverName, Date) => {
 // };
 
 export const postUser = async (userInfo) => {
-  const user = await axios.post("http://192.168.101.9:3300/Users", userInfo);
+  const user = await axios.post("http://192.168.40.128:3300/Users", userInfo);
   return user;
 };
 export const updateUser = async (userInfo) => {
   const user = await axios.put(
-    `http://192.168.101.9:3300/Users/${userInfo.id}`,
+    `http://192.168.40.128:3300/Users/${userInfo.id}`,
     userInfo
   );
   return user;
 };
 export const deleteUser = async (id, method = "delete") => {
-  const user = await axios[method](`http://192.168.101.9:3300/Users/${id}`);
+  const user = await axios[method](`http://192.168.40.128:3300/Users/${id}`);
   return user;
 };
 export const fetchUser = async () => {
   // console.log("user", req);
-  const user = await axios.get("http://192.168.101.9:3300/Users");
+  const user = await axios.get("http://192.168.40.128:3300/Users");
   return user.data;
 };
 
 export const historicalDataAPI = async () => {
-  const data = await axios.get("http://localhost:3001/historical");
+  const data = await axios.get("http://192.168.40.1281/historical");
   return data.data;
 };
 
 export const postRealTimeData = async (data) => {
   const realTimeData = await axios.post(
-    "http://192.168.101.9:3300/realtime",
+    "http://192.168.40.128:3300/realtime",
     data
   );
   return realTimeData;
 };
 export const updateRealTimeData = async (data) => {
   const realTimeData = await axios.put(
-    `http://192.168.101.9:3300/realtime/${data.id}`,
+    `http://192.168.40.128:3300/realtime/${data.id}`,
     data
   );
   return realTimeData;
@@ -135,7 +135,7 @@ export const updateRealTimeData = async (data) => {
 export const deleteRealTimeData = async (data) => {
   console.log(data.datetime, "time.........");
   const realTimeData = await axios.delete(
-    `http://192.168.101.9:3300/realtime/${data.id}/${data.datetime}`
+    `http://192.168.40.128:3300/realtime/${data.id}/${data.datetime}`
   );
   return realTimeData;
 };

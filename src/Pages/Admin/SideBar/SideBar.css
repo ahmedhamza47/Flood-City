@@ -79,8 +79,24 @@
   .menuItem > span {
     display: none;
   }
-}
+  .bars {
+    display: flex;
+    position: fixed;
+    top: 0.8rem;
 
+    left: 0%;
+    background: none;
+    border: 1px solid white;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .sidebar {
+    left: 0% !important;
+  }
+}
 @media screen and (max-width: 768px) {
   .sidebar {
     position: fixed;
@@ -100,18 +116,6 @@
     display: flex;
   }
 
-  .bars {
-    display: flex;
-    position: fixed;
-    top: 2rem;
-
-    left: 0%;
-    background: none;
-    border: 1px solid white;
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
-  }
   .logos {
     align-items: inherit;
     width: 100%;

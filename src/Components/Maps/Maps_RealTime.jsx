@@ -16,6 +16,13 @@ import L from "leaflet";
 import { fetchRealTimeData, pushRealTimeData } from "../API/API";
 import { useQuery } from "@tanstack/react-query";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { BsInfoCircle, BsInfoCircleFill } from "react-icons/bs";
+import {
+  Button,
+  PopoverBody,
+  PopoverHeader,
+  UncontrolledPopover,
+} from "reactstrap";
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon.png",
@@ -24,7 +31,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png",
 });
-
 const MarkersMap = () => {
   //-----------------------useQuery section-------------------------
   const { data, isLoading, isError } = useQuery({
@@ -171,7 +177,49 @@ const MarkersMap = () => {
           </div>
         </div>
         <div className="w-100 mt-5  pt-5">
-          <div className="d-flex flex-row  align-middle justify-content-end   pl-5 ">
+          <div className="d-flex flex-row  align-middle justify-content-end align-items-center  pl-5 ">
+            <div>
+              <Button id="PopoverFocus" type="button">
+                <BsInfoCircleFill className="i-icon" />
+              </Button>
+              <UncontrolledPopover
+                placement="left-start"
+                target="PopoverFocus"
+                trigger="focus"
+                style={{ maxWidth: "10cm" }}
+              >
+                <PopoverHeader>Haversine Formula</PopoverHeader>
+                <PopoverBody
+                  style={{ width: "10cm", overflowY: "scroll", height: "5cm" }}
+                >
+                  <p>
+                    function distanceBetweenPoints(lat1, lon1, lat2, lon2) {"{"}{" "}
+                    <br />
+                    const deltaLat = toRadians(lat2 - lat1) const deltaLon =
+                    toRadians(lon2 - lon1) <br />
+                    const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+                    Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+                    Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2) <br />
+                    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+                    <br />
+                    const distance = earthRadius * c
+                    <br />
+                    console.log(distance)
+                    <br /> return distance
+                    {"}"}
+                  </p>{" "}
+                  <br />
+                  The function takes in the latitude and longitude of two points
+                  ,converts them into radians and calculates the difference of
+                  latitude and longitude between the two points. An intermediate
+                  value is calculated , which is the half of the square of the
+                  chord length. The intermediate value is then used to calculate
+                  the angular distance between the points. And finally, the
+                  distance in kilometers is calculated by multiplying the
+                  angular distance with the radius of earth.
+                </PopoverBody>
+              </UncontrolledPopover>
+            </div>
             <button
               className="btn btn-primary btn-location ml-3 mr-3 pl-1  "
               onClick={showMyLocation}

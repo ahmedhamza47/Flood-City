@@ -1,5 +1,5 @@
 .main {
-  margin-top: 8rem;
+  margin-top: 4rem;
 }
 .realTime {
   overflow-y: scroll;
@@ -7,4 +7,26 @@
 }
 .input-readonly {
   opacity: 0.7;
+  cursor: not-allowed;
+}
+.realTime h1 {
+  font-size: 24px;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #2f3564;
+}
+.realTime input,
+.realTime select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 15rem;
+  height: 2rem;
+}
+.realTime .submit-btn {
+  transform: translateX(0px);
+}
+
+.submmit-btn:hover {
+  cursor: pointer;
 }

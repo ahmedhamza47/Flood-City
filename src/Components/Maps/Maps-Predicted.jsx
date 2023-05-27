@@ -32,6 +32,13 @@ import {
 } from "chart.js";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import {
+  Button,
+  PopoverBody,
+  PopoverHeader,
+  UncontrolledPopover,
+} from "reactstrap";
+import { BsInfoCircleFill } from "react-icons/bs";
 
 ChartJS.register(
   CategoryScale,
@@ -166,31 +173,228 @@ const PredictedMap = () => {
           </div>
         </div>
         <div className="w-100 mt-5">
-          <div className="d-flex flex-row  align-middle justify-content-end   pl-5 mb-3">
-            <p className="select-date d-flex flex-row align-items-center ">
-              Select Date:
-            </p>
-            <input
-              type="date"
-              onChange={(e) => setSelectedDate(e.target.value)}
-              ref={dateInputRef}
-              className="input mx-3"
-            />{" "}
-            <br />
-            <button
-              className="btn btn-primary  "
-              onClick={() => handlePredictButtonClick()}
-            >
-              {" "}
-              Predict
-            </button>
-            <button
-              className="btn btn-primary btn-location ml-3 mr-5 pl-1 pr-2 "
-              onClick={showMyLocation}
-            >
-              <FaMapMarkerAlt fill="white" className="mr-1" />
-              Locate Me
-            </button>
+          <div className="d-flex justify-content-between align-items-center ">
+            <div className="pl-3">
+              <Button id="PopoverFocus" type="button">
+                <BsInfoCircleFill className="i-icon" />
+              </Button>
+              <UncontrolledPopover
+                placement="right-end"
+                target="PopoverFocus"
+                style={{ maxWidth: "10cm" }}
+                className="ml-5"
+              >
+                <PopoverHeader>Implementation of TSA module</PopoverHeader>
+                <PopoverBody
+                  style={{ width: "10cm", overflowY: "scroll", height: "5cm" }}
+                >
+                  <p>
+                    Step: 1<br />
+                    df = pd.read_csv('chisapani_all.csv')
+                    <br />
+                    df['dateTime'] = pd.to_datetime(df['dateTime'])
+                    <br />
+                    df['value'] = pd.to_numeric(df['value'], errors='coerce')
+                    <br />
+                    df['value'].replace('', np.nan)
+                    <br />
+                    df['value'].replace(' ', np.nan)
+                    <br />
+                    df['value'] = df['value'].interpolate()
+                    <br />
+                    <br />
+                    Load the data and perform preprocessing. convert datetime in
+                    csv file into datetime object, replicate the missing values
+                    with N/A and interpolate them.
+                    <br />
+                    <br />
+                    Step: 2<br />
+                    df['hour'] = df['dateTime'].dt.hour
+                    <br />
+                    df['dayofweek'] = df['dateTime'].dt.dayofweek
+                    <br />
+                    df['quarter'] = df['dateTime'].dt.quarter
+                    <br />
+                    df['month'] = df['dateTime'].dt.month
+                    <br />
+                    df['year'] = df['dateTime'].dt.year
+                    <br />
+                    df['dayofyear'] = df['dateTime'].dt.dayofyear
+                    <br />
+                    df['dayofmonth'] = df['dateTime'].dt.day
+                    <br />
+                    df['weekofyear'] = df['dateTime'].dt.isocalendar().week
+                    <br />
+                    <br />
+                    Split the datetime into a series of features.
+                    <br />
+                    <br />
+                    Step: 3<br />
+                    train_size = int(0.7 * len(df))
+                    <br />
+                    train = df[:train_size]
+                    <br />
+                    test = df[train_size:]
+                    <br />
+                    <br />
+                    Split the dataset into training and testing datasets.
+                    <br />
+                    <br />
+                    Step: 4<br />
+                    def fit(self, X, y):
+                    <br />
+                    try:
+                    <br />
+                    self.base_pred = np.mean(y)
+                    <br />
+                    except Exception as e:
+                    <br />
+                    print("Error in calculating mean:", e)
+                    <br />
+                    print("y values:", y)
+                    <br />
+                    return
+                    <br />
+                    residual = y - self.base_pred
+                    <br />
+                    X = X.values
+                    <br />
+                    for i in range(self.n_estimators):
+                    <br />
+                    print(i)
+                    <br />
+                    tree = self._build_tree(X, residual, depth=0)
+                    <br />
+                    self.trees.append(tree)
+                    <br />
+                    pred = self.predict(X)
+                    <br />
+                    residual -= self.learning_rate * pred
+                    <br />
+                    <br />
+                    Calculate the initial base prediction and loop until the
+                    desired number of decision trees is reached.
+                    <br />
+                    <br />
+                    Step: 5<br />
+                    def _find_best_split(self, X, y):
+                    <br />
+                    best_feature = None
+                    <br />
+                    best_value = None
+                    <br />
+                    best_score = np.inf
+                    <br />
+                    for feature in range(X.shape[1]):
+                    <br />
+                    for value in np.unique(X[:, feature]):
+                    <br />
+                    left_idx = X[:, feature] &lt; value
+                    <br />
+                    right_idx = X[:, feature] &gt;= value
+                    <br />
+                    if np.sum(left_idx) == 0 or np.sum(right_idx) == 0:
+                    <br />
+                    continue
+                    <br />
+                    left = y[left_idx]
+                    <br />
+                    right = y[right_idx]
+                    <br />
+                    score = np.sum((left - np.mean(left))**2) + np.sum((right -
+                    np.mean(right))**2)
+                    <br />
+                    if score &lt; best_score:
+                    <br />
+                    best_feature = feature
+                    <br />
+                    best_value = value
+                    <br />
+                    best_score = score
+                    <br />
+                    return best_feature, best_value
+                    <br />
+                    <br />
+                    Find the best split for each node to create a decision tree.
+                    the best split is chosen by optimizing the loss function,
+                    which is Sum of squared errors.
+                    <br />
+                    <br />
+                    Step: 6<br />
+                    def _build_tree(self, X, y, depth):
+                    <br />
+                    if depth == self.max_depth:
+                    <br />
+                    return LeafNode(y)
+                    <br />
+                    split_feature, split_value = self._find_best_split(X, y)
+                    <br />
+                    if split_feature is None:
+                    <br />
+                    return LeafNode(y)
+                    <br />
+                    left_idx = X[:, split_feature] &lt; split_value
+                    <br />
+                    right_idx = X[:, split_feature] &gt;= split_value
+                    <br />
+                    left = self._build_tree(X[left_idx], y[left_idx], depth+1)
+                    <br />
+                    right = self._build_tree(X[right_idx], y[right_idx],
+                    depth+1)
+                    <br />
+                    return DecisionNode(split_feature, split_value, left, right)
+                    <br />
+                    <br />
+                    create trees for each loop, considering the best split.
+                    <br />
+                    <br />
+                    Step: 7<br />
+                    def predict(self, X):
+                    <br />
+                    pred = np.array([self.base_pred]*len(X))
+                    <br />
+                    for tree in self.trees:
+                    <br />
+                    pred += self.learning_rate * tree.predict(X)
+                    <br />
+                    return pred
+                    <br />
+                    <br />
+                    Predict values from all currently existing trees and make a
+                    final prediction including the base prediction and learning
+                    rate.
+                    <br />
+                  </p>
+                </PopoverBody>
+              </UncontrolledPopover>
+            </div>
+
+            <div className="d-flex   align-middle justify-content-end  pl-5 mb-3">
+              <p className="select-date d-flex  align-items-center ">
+                Select Date:
+              </p>
+              <input
+                type="date"
+                onChange={(e) => setSelectedDate(e.target.value)}
+                ref={dateInputRef}
+                className="input mx-3"
+              />{" "}
+              <br />
+              <button
+                className="btn btn-primary  "
+                onClick={() => handlePredictButtonClick()}
+              >
+                {" "}
+                Predict
+              </button>
+              <button
+                className="btn btn-primary btn-location ml-3 mr-5 pl-1 pr-2 "
+                onClick={showMyLocation}
+              >
+                <FaMapMarkerAlt fill="white" className="mr-1" />
+                Locate Me
+              </button>
+            </div>
           </div>
         </div>
         <div className=" d-flex flex-row justify-content-start text-left w-100 pl-5">

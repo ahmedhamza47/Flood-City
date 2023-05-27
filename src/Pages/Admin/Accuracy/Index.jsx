@@ -5,6 +5,7 @@ import "./RealTime.css";
 const Index = () => {
   return (
     <div className="realTime">
+      <h1>Real Time Data</h1>
       <AdminRealTime />
       <RealTimeTable />
     </div>

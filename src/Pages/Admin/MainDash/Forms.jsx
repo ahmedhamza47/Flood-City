@@ -1,11 +1,11 @@
 import React from "react";
 import * as yup from "yup";
-import { Form, Formik, useFormik } from "formik";
-import { useState } from "react";
+import { useFormik } from "formik";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postUser, updateUser } from "../../../Components/API/API";
 import { v4 as uuidv4 } from "uuid";
 import { useContext } from "react";
+
 import {
   DataContext,
   initialValues,
@@ -25,8 +25,7 @@ const InputForm = () => {
     longitude: yup.string().required().min(2).max(10),
     latitude: yup.string().required().min(2).max(10),
   });
-  const { formValues, setFormValues, users, editUser, setEditUser } =
-    useContext(DataContext);
+  const { formValues, users, editUser, setEditUser } = useContext(DataContext);
   const handleFormSubmit = (values, resetForm) => {
     console.log(values, "values");
     if (editUser) {
@@ -78,10 +77,10 @@ const InputForm = () => {
         <form onSubmit={formik.handleSubmit}>
           <div className="container-fluid d-flex justify-content-center">
             <div className="form-group">
-              <div className="row no-gutters">
-                <div className="col-lg-4">
+              <div className="row  no-gutters">
+                <div className="col-xl-4 mb-3 ">
                   <div>
-                    <label htmlFor="name">User Name</label>
+                    <label htmlFor="name">Username</label>
                     <input
                       type="text"
                       id="name"
@@ -95,7 +94,7 @@ const InputForm = () => {
                     ) : null}
                   </div>
                 </div>
-                <div className="col-lg-4 ">
+                <div className="col-xl-4 mb-3  ">
                   <label htmlFor="email">Email</label>
                   <input
                     type="email"
@@ -109,7 +108,7 @@ const InputForm = () => {
                     <div className="error">{formik.errors.email}</div>
                   ) : null}
                 </div>
-                <div className="col-lg-4 phone-input">
+                <div className="col-xl-4 mb-3  phone-input">
                   <label htmlFor="phoneNumber">Phone Number</label>
                   <input
                     type="number"
@@ -124,8 +123,8 @@ const InputForm = () => {
                   ) : null}
                 </div>
               </div>
-              <div className="row no-gutters mt-3">
-                <div className="col-lg-4  ">
+              <div className="row  no-gutters ">
+                <div className="col-xl-4 mb-3   ">
                   <div>
                     <label htmlFor="longitude">Longitude</label>
                     <input
@@ -141,7 +140,7 @@ const InputForm = () => {
                     ) : null}
                   </div>
                 </div>
-                <div className="col-lg-4">
+                <div className="col-xl-4 mb-3 ">
                   <label htmlFor="latitude">Latitude</label>
                   <input
                     type="number"
@@ -160,7 +159,7 @@ const InputForm = () => {
                 <div>
                   <button
                     type="submit "
-                    className="btn btn-primary submit-btn mt-5"
+                    className="btn btn-primary submit-btn mt-3"
                   >
                     Submit{" "}
                   </button>
