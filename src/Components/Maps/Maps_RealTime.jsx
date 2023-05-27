@@ -183,7 +183,7 @@ const MarkersMap = () => {
                 <BsInfoCircleFill className="i-icon" />
               </Button>
               <UncontrolledPopover
-                placement="left-start"
+                placement="left-end"
                 target="PopoverFocus"
                 trigger="focus"
                 style={{ maxWidth: "10cm" }}
