@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import "../SideBar/SideBar.css";
 import { IoMdCloseCircle } from "react-icons/io";
-import { UilSignOutAlt } from "@iconscout/react-unicons";
 import { SidebarData } from "../Data/Data";
-import { UilBars } from "@iconscout/react-unicons";
+
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";

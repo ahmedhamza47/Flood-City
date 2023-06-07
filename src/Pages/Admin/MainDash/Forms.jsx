@@ -14,16 +14,16 @@ import { toast } from "react-toastify";
 
 const InputForm = () => {
   const validate = yup.object().shape({
-    name: yup.string().required().max(20).min(2),
-    email: yup.string().email().required(),
+    name: yup.string().required("Username is required ").max(20).min(2),
+    email: yup.string().email().required("Email is required"),
     phone_no: yup
       .string()
-      .required()
+      .required("Phone Number is required")
       .min(10)
       .max(10)
-      .matches(/^98\d{8}$/, "Number must start with 98"),
-    longitude: yup.string().required().min(2).max(10),
-    latitude: yup.string().required().min(2).max(10),
+      .matches(/^(98|97)\d{8}$/, "Number must start with 98 or 97"),
+    longitude: yup.string().required("Longitude is required").min(2).max(10),
+    latitude: yup.string().required("Latitude is required").min(2).max(10),
   });
   const { formValues, users, editUser, setEditUser } = useContext(DataContext);
   const handleFormSubmit = (values, resetForm) => {
@@ -31,7 +31,6 @@ const InputForm = () => {
     if (editUser) {
       users.map((user) => {
         if (user.id === values.id) {
-          console.log("....");
           Update(values);
         }
       });
@@ -55,7 +54,7 @@ const InputForm = () => {
   const { mutate: Update } = useMutation(updateUser, {
     onSuccess: () => {
       queryClient.invalidateQueries();
-      toast.update("User Edited Successfully !", {
+      toast.success("User Edited Successfully !", {
         position: toast.POSITION.TOP_RIGHT,
       });
     },
@@ -161,7 +160,7 @@ const InputForm = () => {
                     type="submit "
                     className="btn btn-primary submit-btn mt-3"
                   >
-                    Submit{" "}
+                    {editUser ? "Save" : " Submit"}
                   </button>
                 </div>
               </div>

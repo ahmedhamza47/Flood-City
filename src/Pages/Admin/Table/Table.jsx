@@ -1,6 +1,6 @@
-import { deleteUser, fetchUser, updateUser } from "../../../Components/API/API";
+import { deleteUser, fetchUser } from "../../../Components/API/API";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { DataContext } from "../../../Components/context/context";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
@@ -103,7 +103,10 @@ export default function BasicTable() {
                 <td>{row.longitude}</td>
                 <td>{row.phone_no}</td>
                 <td className="d-flex">
-                  <FaEdit className="edit-icon" />
+                  <FaEdit
+                    className="edit-icon"
+                    onClick={() => handleEdit(row)}
+                  />
 
                   <FaTrashAlt
                     className="delete-icon"

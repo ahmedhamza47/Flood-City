@@ -1,12 +1,5 @@
 // Sidebar imports
-import {
-  UilEstate,
-  UilClipboardAlt,
-  UilUsersAlt,
-  UilPackage,
-  UilChart,
-  UilSignOutAlt,
-} from "@iconscout/react-unicons";
+import { UilEstate, UilClipboardAlt } from "@iconscout/react-unicons";
 
 // Sidebar Data
 export const SidebarData = [
@@ -17,12 +10,12 @@ export const SidebarData = [
   },
   {
     icon: UilClipboardAlt,
-    heading: "Accuracy",
+    heading: "Real Time",
     link: "/realtime",
   },
-  {
-    icon: UilUsersAlt,
-    heading: "HaverSign",
-    link: "/admin/haversign",
-  },
+  // {
+  //   icon: UilUsersAlt,
+  //   heading: "HaverSign",
+  //   link: "/admin/haversign",
+  // },
 ];
