@@ -13,7 +13,7 @@ const client = new Client({
   password: 'postgres',
   database: 'forecast'
 });
-axios.get('http://hydrology.gov.np/gss/api/socket/river_test/response')
+axios.get('url')
   .then(response => {
     data = response.data;
     data.forEach(item => {
